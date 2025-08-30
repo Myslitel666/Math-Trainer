@@ -144,8 +144,8 @@
 </script>
 
 {#if isInitialized}
-  <div class="content" style:height="43rem">
-    <div style:min-height="3rem" style:margin-top="4rem">
+  <div class="content">
+    <div style:min-height="3rem" style:margin-top="0.35rem">
       <p style:color={isError ? errColor : rightColor} class="render">
         {textRender}
       </p>
@@ -154,7 +154,6 @@
       <div style:display="flex" style:flex-direction="column">
         {#if memoryItems === "Numbers and Letters"}
           <div
-            style:margin-bottom="1rem"
             style:padding-left="0.83rem"
             style:padding-right="0.97rem"
             style:width="100vw"
@@ -266,7 +265,6 @@
     display: flex;
     align-items: center;
     flex-direction: column;
-    height: 100vh;
   }
 
   .mgn-top {
