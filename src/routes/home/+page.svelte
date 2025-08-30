@@ -79,12 +79,14 @@
   }
 
   function genOperation() {
-    let operationInd = Math.floor(Math.random() * operations.length - 1) + 1;
+    let operationInd = Math.floor(Math.random() * operations.length);
     return operations[operationInd];
   }
 
-  function genFirstNumb() {
-    return Math.floor(Math.random() * 99) + 2;
+  function genExample() {
+    firstNumber = Math.floor(Math.random() * 99) + 2;
+    secondNumber = Math.floor(Math.random() * 99) + 2;
+    operation = genOperation();
   }
 
   function toVsbl() {
@@ -102,9 +104,7 @@
 
     toVsbl();
 
-    firstNumber = genFirstNumb();
-    secondNumber = genFirstNumb();
-    operation = genOperation();
+    genExample();
   });
 
   $: {
