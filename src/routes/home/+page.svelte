@@ -4,7 +4,7 @@
   import ButtonBox from "svelte-elegant/ButtonBox";
   import { TextField, Button } from "svelte-elegant";
 
-  let textFieldElement: TextField | null = null; // Явно инициализируем как null
+  let exampleColor = "";
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
 
@@ -102,6 +102,8 @@
     // Добавляем маскирующие символы
     const dotsToAdd = Math.max(0, num.length - textRender.length);
     textRender += "•".repeat(dotsToAdd);
+
+    exampleColor = isError ? errColor : rightColor;
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if (textRender !== num) {
@@ -126,16 +128,10 @@
     <div style:min-height="3rem" style:margin-top="0.35rem">
       <p class="render">
         <span>56</span>
-        <span
-          style:font-weight="400"
-          style:color={isError ? errColor : rightColor}>÷</span
-        >
+        <span style:font-weight="400" style:color={exampleColor}>÷</span>
         <span>28</span>
-        <span
-          style:font-weight="400"
-          style:color={isError ? errColor : rightColor}>=</span
-        >
-        <span style:color={isError ? errColor : rightColor}>{textRender}</span>
+        <span style:font-weight="400" style:color={exampleColor}>=</span>
+        <span style:color={exampleColor}>{textRender}</span>
       </p>
     </div>
     <div class="mgn-top">
