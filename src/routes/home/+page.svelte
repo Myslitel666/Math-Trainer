@@ -128,9 +128,9 @@
     <div style:min-height="3rem" style:margin-top="0.35rem">
       <p class="render">
         <span>56</span>
-        <span style:font-weight="400" style:color={exampleColor}>÷</span>
+        <span class="number" style:color={exampleColor}>÷</span>
         <span>28</span>
-        <span style:font-weight="400" style:color={exampleColor}>=</span>
+        <span class="number" style:color={exampleColor}>=</span>
         <span style:color={exampleColor}>{textRender}</span>
       </p>
     </div>
@@ -241,6 +241,10 @@
   .mgn-top {
     margin-top: 0.25rem;
     font-size: 1.4rem;
+  }
+
+  .number {
+    font-weight: 400;
   }
 
   .render {
