@@ -86,12 +86,27 @@
   function genExample() {
     operation = genOperation();
 
+    operation = "÷";
+
     if (operation === "+" || operation === "-") {
       firstNumber = Math.floor(Math.random() * 99) + 11;
       secondNumber = Math.floor(Math.random() * 99) + 12;
+    } else if (operation === "•") {
+      firstNumber = Math.floor(Math.random() * 99) + 11;
+      secondNumber = Math.floor(Math.random() * 9) + 2;
     } else {
-      firstNumber = Math.floor(Math.random() * 99) + 2;
-      secondNumber = Math.floor(Math.random() * 99) + 2;
+      let quotient = Math.floor(Math.random() * 99) + 11;
+      let divisor = Math.floor(Math.random() * 9) + 2;
+      let dividend = quotient * divisor;
+
+      firstNumber = dividend;
+      let a = Math.floor(Math.random() * 2);
+
+      if (a === 0) {
+        secondNumber = divisor;
+      } else {
+        secondNumber = quotient;
+      }
     }
   }
 
