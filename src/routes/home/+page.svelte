@@ -43,10 +43,7 @@
   });
 
   function checkResult() {
-    let inputAbs = Math.abs(Number(inputStr));
-    let numAbs = Math.abs(Number(num));
-
-    if (inputAbs === numAbs) {
+    if (inputStr === num) {
       isError = 0;
     } else {
       isError = 1;
@@ -124,6 +121,8 @@
   });
 
   $: {
+    num = num.replace(/-/g, "");
+
     if (inputStr.length > num.length) onBackClick();
 
     inputStr = inputStr.toLocaleUpperCase();
