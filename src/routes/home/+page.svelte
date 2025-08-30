@@ -84,9 +84,15 @@
   }
 
   function genExample() {
-    firstNumber = Math.floor(Math.random() * 99) + 2;
-    secondNumber = Math.floor(Math.random() * 99) + 2;
     operation = genOperation();
+
+    if (operation === "+" || operation === "-") {
+      firstNumber = Math.floor(Math.random() * 99) + 11;
+      secondNumber = Math.floor(Math.random() * 99) + 12;
+    } else {
+      firstNumber = Math.floor(Math.random() * 99) + 2;
+      secondNumber = Math.floor(Math.random() * 99) + 2;
+    }
   }
 
   function toVsbl() {
@@ -145,6 +151,9 @@
         <span class="number" style:color={exampleColor}>{operation}</span>
         <span>{secondNumber}</span>
         <span class="number" style:color={exampleColor}>=</span>
+        {#if secondNumber > firstNumber && operation === "-"}
+          <span class="number" style:color={exampleColor}> - </span>
+        {/if}
         <span style:color={exampleColor}>{textRender}</span>
       </p>
     </div>
