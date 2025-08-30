@@ -2,9 +2,11 @@
   import { themeStore, themeMode } from "svelte-elegant/stores";
   import { onMount } from "svelte";
   import ButtonBox from "svelte-elegant/ButtonBox";
-  import { TextField, Button } from "svelte-elegant";
+  import { Button } from "svelte-elegant";
 
   let exampleColor = "";
+  let firstNumber = 0;
+  let secondNumber = 0;
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
 
@@ -77,6 +79,10 @@
     }
   }
 
+  function genFirstNumb() {
+    return Math.floor(Math.random() * 99) + 2;
+  }
+
   function toVsbl() {
     genNumb();
     textRender = num;
@@ -91,6 +97,9 @@
     isInitialized = true;
 
     toVsbl();
+
+    firstNumber = genFirstNumb();
+    secondNumber = genFirstNumb();
   });
 
   $: {
@@ -127,9 +136,9 @@
   <div class="content">
     <div style:min-height="3rem" style:margin-top="0.35rem">
       <p class="render">
-        <span>56</span>
+        <span>{firstNumber}</span>
         <span class="number" style:color={exampleColor}>÷</span>
-        <span>28</span>
+        <span>{secondNumber}</span>
         <span class="number" style:color={exampleColor}>=</span>
         <span style:color={exampleColor}>{textRender}</span>
       </p>
