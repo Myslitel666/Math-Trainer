@@ -2,7 +2,6 @@
   import { themeStore, themeMode } from "svelte-elegant/stores";
   import { onMount } from "svelte";
   import ButtonBox from "svelte-elegant/ButtonBox";
-  import { Button } from "svelte-elegant";
 
   let exampleColor = "";
   let firstNumber = 0;
@@ -44,7 +43,10 @@
   });
 
   function checkResult() {
-    if (inputStr === num) {
+    let inputAbs = Math.abs(Number(inputStr));
+    let numAbs = Math.abs(Number(num));
+
+    if (inputAbs === numAbs) {
       isError = 0;
     } else {
       isError = 1;
@@ -83,7 +85,11 @@
       firstNumber = genComplexNumber(11, 99);
       secondNumber = genComplexNumber(11, 99);
 
-      num = (firstNumber + secondNumber).toString();
+      if (operation === "+") {
+        num = (firstNumber + secondNumber).toString();
+      } else {
+        num = (firstNumber - secondNumber).toString();
+      }
     } else if (operation === "•") {
       firstNumber = genComplexNumber(11, 99);
       secondNumber = genComplexNumber(2, 9);
@@ -128,6 +134,8 @@
     textRender += "•".repeat(dotsToAdd);
 
     exampleColor = isError ? errColor : rightColor;
+
+    console.log(num);
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if (textRender !== num) {
