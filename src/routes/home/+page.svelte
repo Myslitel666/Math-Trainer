@@ -59,28 +59,24 @@
     inputStr = "";
   }
 
-  function oldFuncGen() {
-    num = "";
-
-    for (let i = 0; i < cntChr; i++) {
-      if (memoryItems === "Numbers and Letters") {
-        let NumOrLetter = Math.floor(Math.random() * 2) + 1; //Цифра или буква
-        if (NumOrLetter === 1) {
-        } else {
-          //Если цифра
-          let rnd = Math.floor(Math.random() * 9);
-          num += rnd;
-        }
-      } else {
-        let rnd = Math.floor(Math.random() * 9);
-        num += rnd;
-      }
-    }
-  }
-
   function genOperation() {
     let operationInd = Math.floor(Math.random() * operations.length);
     return operations[operationInd];
+  }
+
+  function genComplexNumber(a: number, b: number) {
+    let isNotComplex = true;
+    let num = 0;
+
+    while (isNotComplex) {
+      num = Math.floor(Math.random() * b) + a;
+
+      if (num % 10 !== 0) {
+        isNotComplex = false;
+      }
+    }
+
+    return num;
   }
 
   function genExample() {
@@ -89,14 +85,17 @@
     operation = "÷";
 
     if (operation === "+" || operation === "-") {
-      firstNumber = Math.floor(Math.random() * 99) + 11;
-      secondNumber = Math.floor(Math.random() * 99) + 12;
+      firstNumber = genComplexNumber(11, 99);
+      secondNumber = genComplexNumber(11, 99);
+
+      num = (firstNumber + secondNumber).toString();
     } else if (operation === "•") {
-      firstNumber = Math.floor(Math.random() * 99) + 11;
-      secondNumber = Math.floor(Math.random() * 9) + 2;
+      firstNumber = genComplexNumber(11, 99);
+      secondNumber = genComplexNumber(2, 9);
+      num = (firstNumber * secondNumber).toString();
     } else {
-      let quotient = Math.floor(Math.random() * 99) + 11;
-      let divisor = Math.floor(Math.random() * 9) + 2;
+      let quotient = genComplexNumber(11, 99);
+      let divisor = genComplexNumber(2, 9);
       let dividend = quotient * divisor;
 
       firstNumber = dividend;
@@ -104,14 +103,17 @@
 
       if (a === 0) {
         secondNumber = divisor;
+        num = (dividend / divisor).toString();
       } else {
         secondNumber = quotient;
+        num = (dividend / quotient).toString();
       }
     }
+
+    console.log(num);
   }
 
   function toVsbl() {
-    oldFuncGen();
     textRender = num;
   }
 
