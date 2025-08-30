@@ -57,7 +57,7 @@
     inputStr = "";
   }
 
-  function genNumb() {
+  function oldFuncGen() {
     num = "";
 
     for (let i = 0; i < cntChr; i++) {
@@ -84,7 +84,7 @@
   }
 
   function toVsbl() {
-    genNumb();
+    oldFuncGen();
     textRender = num;
   }
 
