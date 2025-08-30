@@ -16,7 +16,6 @@
   let errColor = "";
   let num = "";
   let textRender = "";
-  let isHidden = false;
   let symbols = "QWERTYUIOPASDFGHJKLZXCVBNM";
 
   let buttons = [
@@ -78,27 +77,9 @@
     }
   }
 
-  function hideNum(num: String) {
-    let hidden = "";
-
-    for (let i = 0; i < num.length; i++) {
-      hidden += "•";
-    }
-
-    return hidden;
-  }
-
   function toVsbl() {
     genNumb();
     textRender = num;
-    setTimeout(() => {
-      textRender = hideNum(num);
-      isHidden = true;
-      // Добавляем фиктивную задержку для гарантии обновления DOM
-      setTimeout(() => {
-        textFieldElement?.focus();
-      }, 1);
-    }, 1750);
   }
 
   onMount(() => {
@@ -117,12 +98,10 @@
 
     inputStr = inputStr.toLocaleUpperCase();
 
-    if (isHidden) {
-      textRender = inputStr;
-      // Добавляем маскирующие символы
-      const dotsToAdd = Math.max(0, num.length - textRender.length);
-      textRender += "•".repeat(dotsToAdd);
-    }
+    textRender = inputStr;
+    // Добавляем маскирующие символы
+    const dotsToAdd = Math.max(0, num.length - textRender.length);
+    textRender += "•".repeat(dotsToAdd);
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if (textRender !== num) {
@@ -139,7 +118,6 @@
 
   function onEnterClick() {
     checkResult();
-    isHidden = false;
   }
 </script>
 
@@ -170,24 +148,11 @@
             style:max-width="27.5rem"
             style:box-sizing="border-box"
           >
-            <TextField
-              bind:this={textFieldElement}
-              bind:value={inputStr}
-              onkeydown={(e) => {
-                if (e.key === "Enter") {
-                  onEnterClick();
-                }
-              }}
-              label="Enter the String"
-              disabled={!isHidden}
-              width="100%"
-            />
             <Button
               marginTop="0.66rem"
               width="100%"
               isPrimary={true}
               onClick={onEnterClick}
-              disabled={!isHidden}
             >
               Next Level
             </Button>
