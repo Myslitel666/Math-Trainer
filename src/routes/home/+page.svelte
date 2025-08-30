@@ -82,7 +82,7 @@
   function genExample() {
     operation = genOperation();
 
-    operation = "÷";
+    //operation = "÷";
 
     if (operation === "+" || operation === "-") {
       firstNumber = genComplexNumber(11, 99);
@@ -109,8 +109,6 @@
         num = (dividend / quotient).toString();
       }
     }
-
-    console.log(num);
   }
 
   function toVsbl() {
