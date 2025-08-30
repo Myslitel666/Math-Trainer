@@ -18,7 +18,9 @@
   let errColor = "";
   let num = "";
   let textRender = "";
-  let symbols = "QWERTYUIOPASDFGHJKLZXCVBNM";
+
+  let operation = "";
+  let operations = "+-•÷";
 
   let buttons = [
     [1, 2, 3],
@@ -64,9 +66,6 @@
       if (memoryItems === "Numbers and Letters") {
         let NumOrLetter = Math.floor(Math.random() * 2) + 1; //Цифра или буква
         if (NumOrLetter === 1) {
-          //Если буква
-          const indSymbols = Math.floor(Math.random() * symbols.length);
-          num += symbols[indSymbols];
         } else {
           //Если цифра
           let rnd = Math.floor(Math.random() * 9);
@@ -77,6 +76,11 @@
         num += rnd;
       }
     }
+  }
+
+  function genOperation() {
+    let operationInd = Math.floor(Math.random() * operations.length - 1) + 1;
+    return operations[operationInd];
   }
 
   function genFirstNumb() {
@@ -100,6 +104,7 @@
 
     firstNumber = genFirstNumb();
     secondNumber = genFirstNumb();
+    operation = genOperation();
   });
 
   $: {
@@ -137,7 +142,7 @@
     <div style:min-height="3rem" style:margin-top="0.35rem">
       <p class="render">
         <span>{firstNumber}</span>
-        <span class="number" style:color={exampleColor}>÷</span>
+        <span class="number" style:color={exampleColor}>{operation}</span>
         <span>{secondNumber}</span>
         <span class="number" style:color={exampleColor}>=</span>
         <span style:color={exampleColor}>{textRender}</span>
