@@ -146,8 +146,18 @@
 {#if isInitialized}
   <div class="content">
     <div style:min-height="3rem" style:margin-top="0.35rem">
-      <p style:color={isError ? errColor : rightColor} class="render">
-        {textRender}
+      <p class="render">
+        <span>56</span>
+        <span
+          style:font-weight="400"
+          style:color={isError ? errColor : rightColor}>÷</span
+        >
+        <span>28</span>
+        <span
+          style:font-weight="400"
+          style:color={isError ? errColor : rightColor}>=</span
+        >
+        <span style:color={isError ? errColor : rightColor}>{textRender}</span>
       </p>
     </div>
     <div class="mgn-top">
