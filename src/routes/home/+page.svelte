@@ -63,7 +63,7 @@
     let num = 0;
 
     while (isNotComplex) {
-      num = Math.floor(Math.random() * b) + a;
+      num = Math.floor(Math.random() * (b - a + 1)) + a;
 
       if (num % 10 !== 0) {
         isNotComplex = false;
@@ -76,7 +76,7 @@
   function genExample() {
     operation = genOperation();
 
-    //operation = "÷";
+    //operation = "•";
 
     if (operation === "+" || operation === "-") {
       firstNumber = genComplexNumber(11, 99);
@@ -88,12 +88,17 @@
         num = (firstNumber - secondNumber).toString();
       }
     } else if (operation === "•") {
-      firstNumber = genComplexNumber(11, 99);
-      secondNumber = genComplexNumber(2, 9);
+      secondNumber = genComplexNumber(3, 9);
+
+      if (secondNumber === 3) {
+        firstNumber = genComplexNumber(34, 99);
+      } else {
+        firstNumber = genComplexNumber(11, 99);
+      }
       num = (firstNumber * secondNumber).toString();
     } else {
       let quotient = genComplexNumber(11, 99);
-      let divisor = genComplexNumber(2, 9);
+      let divisor = genComplexNumber(3, 9);
       let dividend = quotient * divisor;
 
       firstNumber = dividend;
