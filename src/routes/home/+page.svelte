@@ -133,8 +133,6 @@
     textRender += "•".repeat(dotsToAdd);
 
     exampleColor = isError ? errColor : rightColor;
-
-    console.log(num);
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if (textRender !== num) {
