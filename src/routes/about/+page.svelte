@@ -64,6 +64,7 @@
         width="100%"
         onClick={() => {
           localStorage.setItem("difficultyLevels", difficultyLevels);
+          localStorage.setItem("time", trainingTime);
           navigate("/home");
         }}
       >

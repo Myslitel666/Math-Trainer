@@ -168,9 +168,13 @@
 
   onMount(() => {
     const storedValue = localStorage.getItem("memoryItems");
+    const storedTime = localStorage.getItem("time");
 
     if (storedValue) {
       memoryItems = storedValue;
+    }
+    if (storedTime) {
+      timeLeft = Number(storedTime) * 60;
     }
     isInitialized = true;
 
