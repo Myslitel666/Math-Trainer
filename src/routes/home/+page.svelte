@@ -39,7 +39,7 @@
 
     if ($themeMode === "light") {
       rightColor = theme.palette.primary;
-      errColor = "#e80000";
+      errColor = "#f10000";
     } else {
       rightColor = "#24F048";
       errColor = theme.palette.primary;
@@ -324,7 +324,7 @@
 
   .render {
     font-size: 2.7rem;
-    transition: color 0.5s;
+    transition: color 0.3s;
   }
 
   .counts {
