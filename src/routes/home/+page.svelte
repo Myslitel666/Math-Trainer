@@ -223,13 +223,21 @@
       <div class="modal">
         <div class="score">
           <p>Corrects</p>
-          <p style:margin-top="-5px" style:color={rightColor}>
+          <p
+            style:margin-top="-5px"
+            style:color={rightColor}
+            style:font-size="32px"
+          >
             ✔{rightCount}
           </p>
         </div>
         <div class="score">
           <p>Mistakes</p>
-          <p style:margin-top="-5px" style:color={errColor}>
+          <p
+            style:margin-top="-5px"
+            style:color={errColor}
+            style:font-size="32px"
+          >
             ✘{errorCount}
           </p>
         </div>
@@ -345,7 +353,7 @@
   }
 
   .modal {
-    font-size: 22px;
+    font-size: 24px;
     display: flex;
     justify-content: space-between;
   }
