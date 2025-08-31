@@ -180,8 +180,8 @@
       memoryItems = storedValue;
     }
     if (storedTime) {
-      timeLeft = Number(storedTime) * 60;
-      //timeLeft = Number(storedTime);
+      //timeLeft = Number(storedTime) * 60;
+      timeLeft = 5;
       time = storedTime;
     }
     isInitialized = true;
@@ -257,17 +257,16 @@
           <p>Avg. correct/min =</p>
           <div>
             <p class="numerator">C²</p>
-            <p>(C + M) × T²</p>
+            <p>(C + M) × T</p>
           </div>
           <p>=</p>
         </div>
         <div class="avg-correct">
-          {errorCount !== 0
+          {(rightCount + errorCount) * Number(time) !== 0
             ? (
                 (rightCount * rightCount) /
                 (rightCount + errorCount) /
-                1 /
-                1
+                Number(time)
               ).toFixed(2)
             : 0}
         </div>
