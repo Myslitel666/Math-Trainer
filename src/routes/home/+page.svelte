@@ -279,15 +279,14 @@
         {/each}
       </div>
     </div>
-    <div class="mgn-top">
-      <span>
-        Time:
-        <span style:color={timeLeft > 10 ? rightColor : errColor}>
-          {Math.floor(timeLeft / 60)
-            .toString()
-            .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
-        </span>
+    <div class="counts">
+      <span style:margin-top="-5px" style:color={rightColor}>✔0</span>
+      <span style:color={timeLeft > 10 ? rightColor : errColor}>
+        {Math.floor(timeLeft / 60)
+          .toString()
+          .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
       </span>
+      <span style:margin-top="-4.5px" style:color={errColor}>✘0</span>
     </div>
   </div>
 {:else}
@@ -312,6 +311,13 @@
 
   .render {
     font-size: 2.7rem;
+  }
+
+  .counts {
+    display: flex;
+    justify-content: space-between;
+    font-size: 40px;
+    width: 18.5rem;
   }
 
   @media (max-width: 392px) {
