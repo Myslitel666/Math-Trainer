@@ -9,7 +9,7 @@
   let secondNumber = 0;
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
-  let timeLeft = 60; // 60 секунд = 1 минута
+  let timeLeft = 1; // 60 секунд = 1 минута
   let timerInterval: number | null = null;
   let isOpenModal = false;
 
@@ -224,7 +224,7 @@
         <p class="modal-header">Score</p>
         <div class="modal">
           <div class="score">
-            <p>Correct</p>
+            <p>Correct (C)</p>
             <p
               style:margin-top="-4px"
               style:color={rightColor}
@@ -234,7 +234,7 @@
             </p>
           </div>
           <div class="score">
-            <p>Mistakes</p>
+            <p>Mistakes (M)</p>
             <p
               style:margin-top="-4px"
               style:color={errColor}
@@ -244,11 +244,14 @@
             </p>
           </div>
         </div>
+        <div class="score" style:font-size="24px" style:margin-top="7px">
+          Time (T): 1 min
+        </div>
         <div class="avg-formula">
           <p>Avg. correct/min =</p>
           <div>
-            <p class="numerator">Correct</p>
-            <p>Mistakes × Time</p>
+            <p class="numerator">C</p>
+            <p>(C + M) × T</p>
           </div>
           <p>=</p>
         </div>
@@ -258,7 +261,7 @@
           style:margin-top="5px"
         >
           {errorCount !== 0
-            ? ((rightCount * 60) / errorCount / 60).toFixed(2)
+            ? ((rightCount * 60) / (rightCount + errorCount) / 60).toFixed(2)
             : 0}
         </div>
       </div>
@@ -363,7 +366,7 @@
     display: flex;
     align-items: center;
     gap: 5px;
-    font-size: 19px;
+    font-size: 22px;
   }
 
   .numerator {
