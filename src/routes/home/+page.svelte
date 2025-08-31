@@ -13,7 +13,8 @@
 
   let inputStr = "";
   let isError = 0;
-  let record = 0;
+  let rightCount = 0;
+  let errorCount = 0;
   let rightColor = "";
   let errColor = "";
   let num = "";
@@ -54,8 +55,10 @@
   function checkResult() {
     if (inputStr === num) {
       isError = 0;
+      rightCount++;
     } else {
       isError = 1;
+      errorCount++;
     }
     inputStr = "";
 
@@ -280,13 +283,16 @@
       </div>
     </div>
     <div class="counts">
-      <span style:margin-top="-5px" style:color={rightColor}>✔0</span>
+      <span style:margin-top="-5px" style:color={rightColor}
+        >✔{rightCount}</span
+      >
       <span style:color={timeLeft > 10 ? rightColor : errColor}>
         {Math.floor(timeLeft / 60)
           .toString()
           .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
       </span>
-      <span style:margin-top="-4.5px" style:color={errColor}>✘0</span>
+      <span style:margin-top="-4.5px" style:color={errColor}>✘{errorCount}</span
+      >
     </div>
   </div>
 {:else}
