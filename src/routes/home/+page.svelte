@@ -188,6 +188,12 @@
     textRender += "•".repeat(dotsToAdd);
 
     exampleColor = isError ? errColor : rightColor;
+
+    if (isError) {
+      setTimeout(() => {
+        isError = 0;
+      }, 500);
+    }
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if (textRender !== num) {
@@ -212,13 +218,14 @@
     <div style:min-height="3rem" style:margin-top="0.35rem">
       <p class="render">
         <span>{firstNumber}</span>
-        <span class="number" style:color={exampleColor}>{operation}</span>
+        <span class="number render" style:color={exampleColor}>{operation}</span
+        >
         <span>{secondNumber}</span>
-        <span class="number" style:color={exampleColor}>=</span>
+        <span class="number render" style:color={exampleColor}>=</span>
         {#if secondNumber > firstNumber && operation === "-"}
-          <span class="number" style:color={exampleColor}> - </span>
+          <span class="number render" style:color={exampleColor}> - </span>
         {/if}
-        <span style:color={exampleColor}>{textRender}</span>
+        <span class="render" style:color={exampleColor}>{textRender}</span>
       </p>
     </div>
     <div class="mgn-top">
@@ -317,6 +324,7 @@
 
   .render {
     font-size: 2.7rem;
+    transition: color 0.5s;
   }
 
   .counts {
