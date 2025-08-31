@@ -9,7 +9,7 @@
   let secondNumber = 0;
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
-  let timeLeft = 1; // 60 секунд = 1 минута
+  let timeLeft = 60; // 60 секунд = 1 минута
   let timerInterval: number | null = null;
   let isOpenModal = false;
 
@@ -225,27 +225,20 @@
         <div class="modal">
           <div class="score">
             <p>Correct (C)</p>
-            <p
-              style:margin-top="-4px"
-              style:color={rightColor}
-              style:font-size="32px"
-            >
-              ✔{rightCount}
+            <p style:color={rightColor} class="score-num">
+              ✔<span style:font-weight="600">{rightCount}</span>
             </p>
           </div>
           <div class="score">
             <p>Mistakes (M)</p>
-            <p
-              style:margin-top="-4px"
-              style:color={errColor}
-              style:font-size="32px"
-            >
-              ✘{errorCount}
+            <p style:color={errColor} class="score-num">
+              ✘<span style:font-weight="600">{errorCount}</span>
             </p>
           </div>
         </div>
-        <div class="score" style:font-size="24px" style:margin-top="7px">
-          Time (T): 1 min
+        <div class="score time-score">
+          <span>Time (T):</span>
+          <span style:font-weight="600" style:margin-left="5px">1 min</span>
         </div>
         <div class="avg-formula">
           <p>Avg. correct/min =</p>
@@ -255,11 +248,7 @@
           </div>
           <p>=</p>
         </div>
-        <div
-          style:text-align="center"
-          style:font-size="32px"
-          style:margin-top="5px"
-        >
+        <div class="avg-correct">
           {errorCount !== 0
             ? ((rightCount * 60) / (rightCount + errorCount) / 60).toFixed(2)
             : 0}
@@ -361,6 +350,31 @@
 {/if}
 
 <style>
+  .score-num {
+    margin-top: -4px;
+    font-size: 32px;
+  }
+
+  .avg-correct {
+    text-align: center;
+    font-size: 32px;
+    margin-top: 5px;
+    font-weight: 600;
+  }
+
+  .score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .time-score {
+    flex-direction: row;
+    font-size: 24px;
+    margin-top: 7px;
+    justify-content: center;
+  }
+
   .avg-formula {
     margin-top: 7px;
     display: flex;
@@ -393,12 +407,6 @@
     display: flex;
     justify-content: center;
     width: 100%;
-  }
-
-  .score {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
   }
 
   .modal {
