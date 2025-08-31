@@ -39,7 +39,7 @@
 
     if ($themeMode === "light") {
       rightColor = theme.palette.primary;
-      errColor = "red";
+      errColor = "#e80000";
     } else {
       rightColor = "#24F048";
       errColor = theme.palette.primary;
@@ -192,7 +192,7 @@
     if (isError) {
       setTimeout(() => {
         isError = 0;
-      }, 500);
+      }, 380);
     }
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
