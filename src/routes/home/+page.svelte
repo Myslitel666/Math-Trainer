@@ -2,14 +2,16 @@
   import { themeStore, themeMode } from "svelte-elegant/stores";
   import { onMount } from "svelte";
   import ButtonBox from "svelte-elegant/ButtonBox";
+  import { Modal } from "svelte-elegant";
 
   let exampleColor = "";
   let firstNumber = 0;
   let secondNumber = 0;
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
-  let timeLeft = 60; // 60 секунд = 1 минута
+  let timeLeft = 1; // 60 секунд = 1 минута
   let timerInterval: number | null = null;
+  let isOpenModal = false;
 
   let inputStr = "";
   let isError = 0;
@@ -194,6 +196,8 @@
         isError = 0;
       }, 750);
     }
+
+    isOpenModal = timeLeft === 0;
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if (textRender !== num) {
@@ -215,13 +219,23 @@
 
 {#if isInitialized}
   <div class="content" style:margin-top="0.75rem">
-    <div
-      style:min-height="3rem"
-      style:margin-top="0.25rem"
-      style:display="flex"
-      style:justify-content="center"
-      style:width="100%"
-    >
+    <Modal isOpen={isOpenModal} isCloseOnOutsideClick={false} maxWidth="8rem">
+      <div class="modal">
+        <div class="score">
+          <p>Corrects</p>
+          <p style:margin-top="-5px" style:color={rightColor}>
+            ✔{rightCount}
+          </p>
+        </div>
+        <div class="score">
+          <p>Mistakes</p>
+          <p style:margin-top="-5px" style:color={errColor}>
+            ✘{errorCount}
+          </p>
+        </div>
+      </div>
+    </Modal>
+    <div class="counts-container">
       <p class="render">
         <span>{firstNumber}</span>
         <span class="number render" style:color={exampleColor}>{operation}</span
@@ -237,7 +251,7 @@
     <div class="mgn-top">
       <div style:display="flex" style:flex-direction="column">
         {#each buttons as buttonLine}
-          <div style:display="flex" style:flex-direction="row">
+          <div class="keyboard">
             {#each buttonLine as button}
               {#if button != "Bs" && button != "En"}
                 <ButtonBox
@@ -295,25 +309,47 @@
         {/each}
       </div>
     </div>
-    <div class="counts">
-      <span style:margin-top="-5px" style:color={rightColor}
-        >✔{rightCount}
-      </span>
-      <span style:color={timeLeft > 10 ? rightColor : errColor}>
-        {Math.floor(timeLeft / 60)
-          .toString()
-          .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
-      </span>
-      <span style:margin-top="-4.5px" style:color={errColor}>
-        ✘{errorCount}
-      </span>
-    </div>
+    {#if timeLeft !== 0}
+      <div class="counts">
+        <span style:margin-top="-5px" style:color={rightColor}
+          >✔{rightCount}
+        </span>
+        <span style:color={timeLeft > 10 ? rightColor : errColor}>
+          {Math.floor(timeLeft / 60)
+            .toString()
+            .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
+        </span>
+        <span style:margin-top="-4.5px" style:color={errColor}>
+          ✘{errorCount}
+        </span>
+      </div>
+    {/if}
   </div>
 {:else}
   <div></div>
 {/if}
 
 <style>
+  .counts-container {
+    min-height: 3rem;
+    margin-top: 0.25rem;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+
+  .score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .modal {
+    font-size: 22px;
+    display: flex;
+    justify-content: space-between;
+  }
+
   .content {
     display: flex;
     align-items: center;
@@ -339,6 +375,12 @@
     justify-content: space-between;
     font-size: 40px;
     width: 18.5rem;
+  }
+
+  .keyboard {
+    margin-left: 0.88rem;
+    display: flex;
+    flex-direction: row;
   }
 
   @media (max-width: 392px) {
