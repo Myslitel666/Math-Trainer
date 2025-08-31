@@ -180,8 +180,8 @@
       memoryItems = storedValue;
     }
     if (storedTime) {
-      //timeLeft = Number(storedTime) * 60;
-      timeLeft = 5;
+      timeLeft = Number(storedTime) * 60;
+      //timeLeft = 5;
       time = storedTime;
     }
     isInitialized = true;
