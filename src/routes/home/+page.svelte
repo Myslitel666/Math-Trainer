@@ -9,6 +9,7 @@
   let secondNumber = 0;
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
+  let time = "1";
   let timeLeft = 60; // 60 секунд = 1 минута
   let timerInterval: number | null = null;
   let isOpenModal = false;
@@ -175,6 +176,7 @@
     }
     if (storedTime) {
       timeLeft = Number(storedTime) * 60;
+      time = storedTime;
     }
     isInitialized = true;
 
@@ -242,7 +244,8 @@
         </div>
         <div class="score time-score">
           <span>Time (T):</span>
-          <span style:font-weight="600" style:margin-left="5px">1 min</span>
+          <span style:font-weight="600" style:margin-left="5px">{time} min</span
+          >
         </div>
         <div class="avg-formula">
           <p>Avg. correct/min =</p>
