@@ -192,7 +192,7 @@
     if (isError) {
       setTimeout(() => {
         isError = 0;
-      }, 380);
+      }, 750);
     }
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
@@ -331,7 +331,7 @@
 
   .render {
     font-size: 2.7rem;
-    transition: color 0.3s;
+    transition: color 0.38s;
   }
 
   .counts {
