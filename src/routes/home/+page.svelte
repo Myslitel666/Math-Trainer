@@ -8,6 +8,8 @@
   let secondNumber = 0;
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
+  let timeLeft = 60; // 60 секунд = 1 минута
+  let timerInterval: number | null = null;
 
   let inputStr = "";
   let isError = 0;
@@ -19,6 +21,7 @@
 
   let operation = "";
   let operations = "+-•÷";
+  let operationsHist = "";
 
   let buttons = [
     [1, 2, 3],
@@ -42,6 +45,12 @@
     }
   });
 
+  timerInterval = setInterval(() => {
+    if (timeLeft > 0) {
+      timeLeft--;
+    }
+  }, 1000);
+
   function checkResult() {
     if (inputStr === num) {
       isError = 0;
@@ -54,18 +63,55 @@
   }
 
   function genOperation() {
-    let operationInd = Math.floor(Math.random() * operations.length);
+    let isRepeatOperation = true;
+    let operationInd = 0;
+
+    while (isRepeatOperation) {
+      operationInd = Math.floor(Math.random() * operations.length);
+
+      if (operationsHist.length > 2) {
+        if (
+          operations[operationInd] !==
+            operationsHist[operationsHist.length - 1] ||
+          operations[operationInd] !== operationsHist[operationsHist.length - 2]
+        ) {
+          isRepeatOperation = false;
+        }
+      } else {
+        isRepeatOperation = false;
+      }
+    }
+    operationsHist += operations[operationInd];
+
     return operations[operationInd];
   }
 
-  function genComplexNumber(a: number, b: number) {
+  function genComplexNumber(min: number, max: number) {
     let isNotComplex = true;
     let num = 0;
 
     while (isNotComplex) {
-      num = Math.floor(Math.random() * (b - a + 1)) + a;
+      num = Math.floor(Math.random() * (max - min + 1)) + min;
 
       if (num % 10 !== 0) {
+        isNotComplex = false;
+      }
+    }
+
+    return num;
+  }
+
+  function genSubOperand(firstOperand: number, min: number, max: number) {
+    let isNotComplex = true;
+    let num = 0;
+    let firstOperandAbs = Math.abs(firstOperand);
+
+    while (isNotComplex) {
+      num = genComplexNumber(min, max);
+      let secondOperandAbs = Math.abs(num);
+      const delta = Math.abs(secondOperandAbs - firstOperandAbs);
+
+      if (delta > 10) {
         isNotComplex = false;
       }
     }
@@ -76,17 +122,18 @@
   function genExample() {
     operation = genOperation();
 
-    //operation = "•";
+    //operation = "-";
 
-    if (operation === "+" || operation === "-") {
+    if (operation === "+") {
       firstNumber = genComplexNumber(11, 99);
       secondNumber = genComplexNumber(11, 99);
 
-      if (operation === "+") {
-        num = (firstNumber + secondNumber).toString();
-      } else {
-        num = (firstNumber - secondNumber).toString();
-      }
+      num = (firstNumber + secondNumber).toString();
+    } else if (operation === "-") {
+      firstNumber = genComplexNumber(11, 99);
+      secondNumber = genSubOperand(firstNumber, 11, 99);
+
+      num = (firstNumber - secondNumber).toString();
     } else if (operation === "•") {
       secondNumber = genComplexNumber(3, 9);
 
@@ -233,10 +280,14 @@
       </div>
     </div>
     <div class="mgn-top">
-      <span
-        >Your Record: <span style:color={theme.palette.primary}>{record}</span
-        ></span
-      >
+      <span>
+        Time:
+        <span style:color={timeLeft > 10 ? rightColor : errColor}>
+          {Math.floor(timeLeft / 60)
+            .toString()
+            .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
+        </span>
+      </span>
     </div>
   </div>
 {:else}
