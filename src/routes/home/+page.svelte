@@ -215,15 +215,13 @@
 
 {#if isInitialized}
   <div class="content" style:margin-top="0.75rem">
-    <div style:font-size="25px">
-      Timer:
-      <span style:color={timeLeft > 10 ? rightColor : errColor}>
-        {Math.floor(timeLeft / 60)
-          .toString()
-          .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
-      </span>
-    </div>
-    <div style:min-height="3rem" style:margin-top="0.25rem">
+    <div
+      style:min-height="3rem"
+      style:margin-top="0.25rem"
+      style:display="flex"
+      style:justify-content="center"
+      style:width="100%"
+    >
       <p class="render">
         <span>{firstNumber}</span>
         <span class="number render" style:color={exampleColor}>{operation}</span
