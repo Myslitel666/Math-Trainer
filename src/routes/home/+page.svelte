@@ -223,9 +223,9 @@
       <p class="modal-header">Score</p>
       <div class="modal">
         <div class="score">
-          <p>Corrects</p>
+          <p>Correct</p>
           <p
-            style:margin-top="-5px"
+            style:margin-top="-4px"
             style:color={rightColor}
             style:font-size="32px"
           >
@@ -235,13 +235,21 @@
         <div class="score">
           <p>Mistakes</p>
           <p
-            style:margin-top="-5px"
+            style:margin-top="-4px"
             style:color={errColor}
             style:font-size="32px"
           >
             ✘{errorCount}
           </p>
         </div>
+      </div>
+      <div class="avg-formula">
+        <p>Avg. correct/min =</p>
+        <div>
+          <p class="numerator">Correct</p>
+          <p>Mistakes × Time</p>
+        </div>
+        <p>=</p>
       </div>
     </Modal>
     <div class="counts-container">
@@ -339,6 +347,22 @@
 {/if}
 
 <style>
+  .avg-formula {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 19px;
+  }
+
+  .numerator {
+    border: 2px solid;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    display: flex;
+    justify-content: center;
+  }
+
   .modal-header {
     font-size: 30px;
     display: flex;
