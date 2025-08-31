@@ -9,7 +9,7 @@
   let secondNumber = 0;
   let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
-  let timeLeft = 1; // 60 секунд = 1 минута
+  let timeLeft = 60; // 60 секунд = 1 минута
   let timerInterval: number | null = null;
   let isOpenModal = false;
 
@@ -220,36 +220,47 @@
 {#if isInitialized}
   <div class="content" style:margin-top="0.75rem">
     <Modal isOpen={isOpenModal} isCloseOnOutsideClick={false} maxWidth="8rem">
-      <p class="modal-header">Score</p>
-      <div class="modal">
-        <div class="score">
-          <p>Correct</p>
-          <p
-            style:margin-top="-4px"
-            style:color={rightColor}
-            style:font-size="32px"
-          >
-            ✔{rightCount}
-          </p>
+      <div style:padding="4px">
+        <p class="modal-header">Score</p>
+        <div class="modal">
+          <div class="score">
+            <p>Correct</p>
+            <p
+              style:margin-top="-4px"
+              style:color={rightColor}
+              style:font-size="32px"
+            >
+              ✔{rightCount}
+            </p>
+          </div>
+          <div class="score">
+            <p>Mistakes</p>
+            <p
+              style:margin-top="-4px"
+              style:color={errColor}
+              style:font-size="32px"
+            >
+              ✘{errorCount}
+            </p>
+          </div>
         </div>
-        <div class="score">
-          <p>Mistakes</p>
-          <p
-            style:margin-top="-4px"
-            style:color={errColor}
-            style:font-size="32px"
-          >
-            ✘{errorCount}
-          </p>
+        <div class="avg-formula">
+          <p>Avg. correct/min =</p>
+          <div>
+            <p class="numerator">Correct</p>
+            <p>Mistakes × Time</p>
+          </div>
+          <p>=</p>
         </div>
-      </div>
-      <div class="avg-formula">
-        <p>Avg. correct/min =</p>
-        <div>
-          <p class="numerator">Correct</p>
-          <p>Mistakes × Time</p>
+        <div
+          style:text-align="center"
+          style:font-size="32px"
+          style:margin-top="5px"
+        >
+          {errorCount !== 0
+            ? ((rightCount * 60) / errorCount / 60).toFixed(2)
+            : 0}
         </div>
-        <p>=</p>
       </div>
     </Modal>
     <div class="counts-container">
@@ -348,6 +359,7 @@
 
 <style>
   .avg-formula {
+    margin-top: 7px;
     display: flex;
     align-items: center;
     gap: 5px;
@@ -369,7 +381,7 @@
     justify-content: center;
     width: 100%;
     font-weight: 600;
-    margin-top: -0.38rem;
+    margin-top: -0.58rem;
     margin-bottom: 0.25rem;
   }
   .counts-container {
