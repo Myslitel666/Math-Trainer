@@ -1,10 +1,11 @@
 <script>
-  import { Button, AutoComplete } from "svelte-elegant";
+  import { Button, AutoComplete, TextField } from "svelte-elegant";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
   // Загружаем значение из localStorage или используем true по умолчанию
   let difficultyLevels = "";
+  let trainingTime = "1";
 
   let isInitialized = false;
 
@@ -15,6 +16,12 @@
 
   function navigate(link) {
     goto(link);
+  }
+
+  $: {
+    if (Number(trainingTime) > 60) {
+      trainingTime = "60";
+    }
   }
 </script>
 
@@ -27,6 +34,19 @@
     >
       Select Mode
     </p>
+    <div class="switch-container">
+      <p class="width">Time (min):</p>
+      <div style:margin-left="0.5rem">
+        <TextField
+          label="Training time"
+          oninput={(e) => {
+            trainingTime = e.target.value.replace(/\D/g, "");
+          }}
+          width="12.5rem"
+          bind:value={trainingTime}
+        />
+      </div>
+    </div>
     <div class="switch-container">
       <p class="width">Difficulty Levels:</p>
       <div style:margin-left="0.5rem">
