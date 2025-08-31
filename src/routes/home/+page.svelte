@@ -215,7 +215,7 @@
 
 {#if isInitialized}
   <div class="content" style:margin-top="0.75rem">
-    <div style:font-size="40px">
+    <div style:font-size="25px">
       Timer:
       <span style:color={timeLeft > 10 ? rightColor : errColor}>
         {Math.floor(timeLeft / 60)
@@ -299,15 +299,16 @@
     </div>
     <div class="counts">
       <span style:margin-top="-5px" style:color={rightColor}
-        >✔{rightCount}</span
-      >
+        >✔{rightCount}
+      </span>
       <span style:color={timeLeft > 10 ? rightColor : errColor}>
         {Math.floor(timeLeft / 60)
           .toString()
           .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
       </span>
-      <span style:margin-top="-4.5px" style:color={errColor}>✘{errorCount}</span
-      >
+      <span style:margin-top="-4.5px" style:color={errColor}>
+        ✘{errorCount}
+      </span>
     </div>
   </div>
 {:else}
