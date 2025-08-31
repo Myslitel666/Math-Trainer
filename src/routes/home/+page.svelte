@@ -243,14 +243,18 @@
         <div class="avg-formula">
           <p>Avg. correct/min =</p>
           <div>
-            <p class="numerator">C</p>
+            <p class="numerator">C²</p>
             <p>(C + M) × T</p>
           </div>
           <p>=</p>
         </div>
         <div class="avg-correct">
           {errorCount !== 0
-            ? ((rightCount * 60) / (rightCount + errorCount) / 60).toFixed(2)
+            ? (
+                (rightCount * rightCount) /
+                (rightCount + errorCount) /
+                1
+              ).toFixed(2)
             : 0}
         </div>
       </div>
