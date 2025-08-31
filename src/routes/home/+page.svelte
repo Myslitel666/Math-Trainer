@@ -214,8 +214,16 @@
 </script>
 
 {#if isInitialized}
-  <div class="content">
-    <div style:min-height="3rem" style:margin-top="0.35rem">
+  <div class="content" style:margin-top="0.75rem">
+    <div style:font-size="40px">
+      Timer:
+      <span style:color={timeLeft > 10 ? rightColor : errColor}>
+        {Math.floor(timeLeft / 60)
+          .toString()
+          .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
+      </span>
+    </div>
+    <div style:min-height="3rem" style:margin-top="0.25rem">
       <p class="render">
         <span>{firstNumber}</span>
         <span class="number render" style:color={exampleColor}>{operation}</span
