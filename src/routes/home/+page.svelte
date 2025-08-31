@@ -220,6 +220,7 @@
 {#if isInitialized}
   <div class="content" style:margin-top="0.75rem">
     <Modal isOpen={isOpenModal} isCloseOnOutsideClick={false} maxWidth="8rem">
+      <p class="modal-header">Score</p>
       <div class="modal">
         <div class="score">
           <p>Corrects</p>
@@ -338,6 +339,15 @@
 {/if}
 
 <style>
+  .modal-header {
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    font-weight: 600;
+    margin-top: -0.38rem;
+    margin-bottom: 0.25rem;
+  }
   .counts-container {
     min-height: 3rem;
     margin-top: 0.25rem;
