@@ -244,7 +244,7 @@
           <p>Avg. correct/min =</p>
           <div>
             <p class="numerator">C²</p>
-            <p>(C + M) × T</p>
+            <p>(C + M) × T²</p>
           </div>
           <p>=</p>
         </div>
@@ -253,6 +253,7 @@
             ? (
                 (rightCount * rightCount) /
                 (rightCount + errorCount) /
+                1 /
                 1
               ).toFixed(2)
             : 0}
