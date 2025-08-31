@@ -2,7 +2,8 @@
   import { themeStore, themeMode } from "svelte-elegant/stores";
   import { onMount } from "svelte";
   import ButtonBox from "svelte-elegant/ButtonBox";
-  import { Modal } from "svelte-elegant";
+  import { Modal, Button } from "svelte-elegant";
+  import { goto } from "$app/navigation";
 
   let exampleColor = "";
   let firstNumber = 0;
@@ -167,6 +168,10 @@
     }
   }
 
+  function reloadPage() {
+    window.location.reload();
+  }
+
   onMount(() => {
     const storedValue = localStorage.getItem("memoryItems");
     const storedTime = localStorage.getItem("time");
@@ -176,6 +181,7 @@
     }
     if (storedTime) {
       timeLeft = Number(storedTime) * 60;
+      //timeLeft = Number(storedTime);
       time = storedTime;
     }
     isInitialized = true;
@@ -266,6 +272,15 @@
             : 0}
         </div>
       </div>
+      <Button width="100%" onclick={reloadPage}>Repeat</Button>
+      <Button
+        marginTop="10px"
+        variant="Outlined"
+        width="100%"
+        onclick={() => goto("/settings")}
+      >
+        Back to Settings
+      </Button>
     </Modal>
     <div class="counts-container">
       <p class="render">
