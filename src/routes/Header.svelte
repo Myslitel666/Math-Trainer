@@ -36,7 +36,18 @@
       </span>
     </p>
   </button>
-  <div style:margin-left="auto" style:margin-right="1.25rem">
+  <div style:margin-left="auto" style:margin-right="1px">
     <ColorThemeSwitch />
   </div>
 </Header>
+
+<style>
+  button {
+    margin-left: 6px;
+  }
+  @media (max-width: 768px) {
+    button {
+      margin-left: 3px;
+    }
+  }
+</style>
