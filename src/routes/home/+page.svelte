@@ -8,7 +8,6 @@
   let exampleColor = "";
   let firstNumber = 0;
   let secondNumber = 0;
-  let memoryItems = "Numbers and Letters"; // значение по умолчанию
   let isInitialized = false;
   let time = "1";
   let timeLeft = 60; // 60 секунд = 1 минута
@@ -173,12 +172,8 @@
   }
 
   onMount(() => {
-    const storedValue = localStorage.getItem("memoryItems");
     const storedTime = localStorage.getItem("time");
 
-    if (storedValue) {
-      memoryItems = storedValue;
-    }
     if (storedTime) {
       timeLeft = Number(storedTime) * 60;
       //timeLeft = 5;
