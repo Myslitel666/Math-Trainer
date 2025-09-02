@@ -266,7 +266,7 @@
             : 0}
         </div>
       </div>
-      <Button width="100%" onclick={reloadPage}>Repeat</Button>
+      <Button width="100%" onclick={reloadPage}>Restart</Button>
       <Button
         marginTop="10px"
         variant="Outlined"
