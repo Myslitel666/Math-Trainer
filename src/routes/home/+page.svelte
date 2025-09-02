@@ -1,31 +1,21 @@
 <script lang="ts">
   import { themeStore, themeMode } from "svelte-elegant/stores";
-  import { onMount } from "svelte";
+  import { onMount, onDestroy } from "svelte";
   import ButtonBox from "svelte-elegant/ButtonBox";
   import { Modal, Button } from "svelte-elegant";
   import { goto } from "$app/navigation";
+  import { gameStore, restart } from "../../stores/gameStore";
 
   let exampleColor = "";
-  let firstNumber = 0;
-  let secondNumber = 0;
   let isInitialized = false;
-  let time = "1";
-  let timeLeft = 60; // 60 секунд = 1 минута
+  let time = 1;
   let timerInterval: number | null = null;
-  let isOpenModal = false;
 
-  let inputStr = "";
   let isError = 0;
-  let rightCount = 0;
-  let errorCount = 0;
   let rightColor = "";
   let errColor = "";
-  let num = "";
-  let textRender = "";
 
-  let operation = "";
   let operations = "+-•÷";
-  let operationsHist = "";
 
   let buttons = [
     [1, 2, 3],
@@ -49,21 +39,15 @@
     }
   });
 
-  timerInterval = setInterval(() => {
-    if (timeLeft > 0) {
-      timeLeft--;
-    }
-  }, 1000);
-
   function checkResult() {
-    if (inputStr === num) {
+    if ($gameStore.inputStr === $gameStore.num) {
       isError = 0;
-      rightCount++;
+      $gameStore.rightCount++;
     } else {
       isError = 1;
-      errorCount++;
+      $gameStore.errorCount++;
     }
-    inputStr = "";
+    $gameStore.inputStr = "";
 
     genExample();
   }
@@ -75,11 +59,12 @@
     while (isRepeatOperation) {
       operationInd = Math.floor(Math.random() * operations.length);
 
-      if (operationsHist.length > 2) {
+      if ($gameStore.operationsHist.length > 2) {
         if (
           operations[operationInd] !==
-            operationsHist[operationsHist.length - 1] ||
-          operations[operationInd] !== operationsHist[operationsHist.length - 2]
+            $gameStore.operationsHist[$gameStore.operationsHist.length - 1] ||
+          operations[operationInd] !==
+            $gameStore.operationsHist[$gameStore.operationsHist.length - 2]
         ) {
           isRepeatOperation = false;
         }
@@ -87,7 +72,7 @@
         isRepeatOperation = false;
       }
     }
-    operationsHist += operations[operationInd];
+    $gameStore.operationsHist += operations[operationInd];
 
     return operations[operationInd];
   }
@@ -125,76 +110,99 @@
     return num;
   }
 
+  function initialTimer() {
+    timerInterval = setInterval(() => {
+      if ($gameStore.timeLeft > 0) {
+        $gameStore.timeLeft--;
+      }
+    }, 1000);
+  }
+
   function genExample() {
-    operation = genOperation();
+    $gameStore.operation = genOperation();
 
     //operation = "-";
 
-    if (operation === "+") {
-      firstNumber = genComplexNumber(11, 99);
-      secondNumber = genComplexNumber(11, 99);
+    if ($gameStore.operation === "+") {
+      $gameStore.firstNumber = genComplexNumber(11, 99);
+      $gameStore.secondNumber = genComplexNumber(11, 99);
 
-      num = (firstNumber + secondNumber).toString();
-    } else if (operation === "-") {
-      firstNumber = genComplexNumber(11, 99);
-      secondNumber = genSubOperand(firstNumber, 11, 99);
+      $gameStore.num = (
+        $gameStore.firstNumber + $gameStore.secondNumber
+      ).toString();
+    } else if ($gameStore.operation === "-") {
+      $gameStore.firstNumber = genComplexNumber(11, 99);
+      $gameStore.secondNumber = genSubOperand($gameStore.firstNumber, 11, 99);
 
-      num = (firstNumber - secondNumber).toString();
-    } else if (operation === "•") {
-      secondNumber = genComplexNumber(3, 9);
+      $gameStore.num = (
+        $gameStore.firstNumber - $gameStore.secondNumber
+      ).toString();
+    } else if ($gameStore.operation === "•") {
+      $gameStore.secondNumber = genComplexNumber(3, 9);
 
-      if (secondNumber === 3) {
-        firstNumber = genComplexNumber(34, 99);
+      if ($gameStore.secondNumber === 3) {
+        $gameStore.firstNumber = genComplexNumber(34, 99);
       } else {
-        firstNumber = genComplexNumber(11, 99);
+        $gameStore.firstNumber = genComplexNumber(11, 99);
       }
-      num = (firstNumber * secondNumber).toString();
+      $gameStore.num = (
+        $gameStore.firstNumber * $gameStore.secondNumber
+      ).toString();
     } else {
       let quotient = genComplexNumber(11, 99);
       let divisor = genComplexNumber(3, 9);
       let dividend = quotient * divisor;
 
-      firstNumber = dividend;
+      $gameStore.firstNumber = dividend;
       let a = Math.floor(Math.random() * 2);
 
       if (a === 0) {
-        secondNumber = divisor;
-        num = (dividend / divisor).toString();
+        $gameStore.secondNumber = divisor;
+        $gameStore.num = (dividend / divisor).toString();
       } else {
-        secondNumber = quotient;
-        num = (dividend / quotient).toString();
+        $gameStore.secondNumber = quotient;
+        $gameStore.num = (dividend / quotient).toString();
       }
     }
-  }
-
-  function reloadPage() {
-    window.location.reload();
   }
 
   onMount(() => {
     const storedTime = localStorage.getItem("time");
 
     if (storedTime) {
-      timeLeft = Number(storedTime) * 60;
-      //timeLeft = 5;
-      time = storedTime;
+      $gameStore.timeLeft = Number(storedTime) * 60;
+      time = Number(storedTime);
     }
-    isInitialized = true;
 
+    initialTimer();
+    restart(time);
     genExample();
+
+    isInitialized = true;
+  });
+
+  // ОЧИЩАЕМ ТАЙМЕР ПРИ УНИЧТОЖЕНИИ КОМПОНЕНТА
+  onDestroy(() => {
+    if (timerInterval) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
   });
 
   $: {
-    num = num.replace(/-/g, "");
+    $gameStore.num = $gameStore.num.replace(/-/g, "");
 
-    if (inputStr.length > num.length) onBackClick();
+    if ($gameStore.inputStr.length > $gameStore.num.length) onBackClick();
 
-    inputStr = inputStr.toLocaleUpperCase();
+    $gameStore.inputStr = $gameStore.inputStr.toLocaleUpperCase();
 
-    textRender = inputStr;
+    $gameStore.textRender = $gameStore.inputStr;
     // Добавляем маскирующие символы
-    const dotsToAdd = Math.max(0, num.length - textRender.length);
-    textRender += "•".repeat(dotsToAdd);
+    const dotsToAdd = Math.max(
+      0,
+      $gameStore.num.length - $gameStore.textRender.length
+    );
+    $gameStore.textRender += "•".repeat(dotsToAdd);
 
     exampleColor = isError ? errColor : rightColor;
 
@@ -204,19 +212,19 @@
       }, 750);
     }
 
-    isOpenModal = timeLeft === 0;
+    $gameStore.isOpenModal = $gameStore.timeLeft === 0;
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
-    if (textRender !== num) {
-      if (inputStr.length < num.length) {
-        inputStr += button;
+    if ($gameStore.textRender !== $gameStore.num) {
+      if ($gameStore.inputStr.length < $gameStore.num.length) {
+        $gameStore.inputStr += button;
       }
     }
     //(event.target as HTMLElement).blur();
   }
 
   function onBackClick() {
-    inputStr = inputStr.slice(0, -1);
+    $gameStore.inputStr = $gameStore.inputStr.slice(0, -1);
   }
 
   function onEnterClick() {
@@ -226,20 +234,24 @@
 
 {#if isInitialized}
   <div class="content" style:margin-top="0.75rem">
-    <Modal isOpen={isOpenModal} isCloseOnOutsideClick={false} maxWidth="8rem">
+    <Modal
+      isOpen={$gameStore.isOpenModal}
+      isCloseOnOutsideClick={false}
+      maxWidth="8rem"
+    >
       <div style:padding="4px">
         <p class="modal-header">Score</p>
         <div class="modal">
           <div class="score">
             <p>Correct (C)</p>
             <p style:color={rightColor} class="score-num">
-              ✔<span style:font-weight="600">{rightCount}</span>
+              ✔<span style:font-weight="600">{$gameStore.rightCount}</span>
             </p>
           </div>
           <div class="score">
             <p>Mistakes (M)</p>
             <p style:color={errColor} class="score-num">
-              ✘<span style:font-weight="600">{errorCount}</span>
+              ✘<span style:font-weight="600">{$gameStore.errorCount}</span>
             </p>
           </div>
         </div>
@@ -257,16 +269,29 @@
           <p>=</p>
         </div>
         <div class="avg-correct">
-          {(rightCount + errorCount) * Number(time) !== 0
+          {($gameStore.rightCount + $gameStore.errorCount) * Number(time) !== 0
             ? (
-                (rightCount * rightCount) /
-                (rightCount + errorCount) /
+                ($gameStore.rightCount * $gameStore.rightCount) /
+                ($gameStore.rightCount + $gameStore.errorCount) /
                 Number(time)
               ).toFixed(2)
             : 0}
         </div>
       </div>
-      <Button width="100%" onclick={reloadPage}>Restart</Button>
+      <Button
+        width="100%"
+        onclick={() => {
+          restart(time);
+          genExample();
+
+          if (timerInterval) {
+            clearInterval(timerInterval);
+            timerInterval = null;
+          }
+
+          initialTimer();
+        }}>Restart</Button
+      >
       <Button
         marginTop="10px"
         variant="Outlined"
@@ -278,15 +303,18 @@
     </Modal>
     <div class="counts-container">
       <p class="render">
-        <span>{firstNumber}</span>
-        <span class="number render" style:color={exampleColor}>{operation}</span
+        <span>{$gameStore.firstNumber}</span>
+        <span class="number render" style:color={exampleColor}
+          >{$gameStore.operation}</span
         >
-        <span>{secondNumber}</span>
+        <span>{$gameStore.secondNumber}</span>
         <span class="number render" style:color={exampleColor}>=</span>
-        {#if secondNumber > firstNumber && operation === "-"}
+        {#if $gameStore.secondNumber > $gameStore.firstNumber && $gameStore.operation === "-"}
           <span class="number render" style:color={exampleColor}> - </span>
         {/if}
-        <span class="render" style:color={exampleColor}>{textRender}</span>
+        <span class="render" style:color={exampleColor}
+          >{$gameStore.textRender}</span
+        >
       </p>
     </div>
     <div class="mgn-top">
@@ -350,18 +378,20 @@
         {/each}
       </div>
     </div>
-    {#if timeLeft !== 0}
+    {#if $gameStore.timeLeft !== 0}
       <div class="counts">
         <span style:margin-top="-5px" style:color={rightColor}
-          >✔{rightCount}
+          >✔{$gameStore.rightCount}
         </span>
-        <span style:color={timeLeft > 10 ? rightColor : errColor}>
-          {Math.floor(timeLeft / 60)
+        <span style:color={$gameStore.timeLeft > 10 ? rightColor : errColor}>
+          {Math.floor($gameStore.timeLeft / 60)
             .toString()
-            .padStart(2, "0")}:{(timeLeft % 60).toString().padStart(2, "0")}
+            .padStart(2, "0")}:{($gameStore.timeLeft % 60)
+            .toString()
+            .padStart(2, "0")}
         </span>
         <span style:margin-top="-4.5px" style:color={errColor}>
-          ✘{errorCount}
+          ✘{$gameStore.errorCount}
         </span>
       </div>
     {/if}
