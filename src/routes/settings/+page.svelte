@@ -5,13 +5,20 @@
 
   // Загружаем значение из localStorage или используем true по умолчанию
   let difficultyLevels = "";
-  let trainingTime = "1";
+  let trainingTime = "";
 
   let isInitialized = false;
 
   onMount(() => {
     difficultyLevels = "Medium";
     isInitialized = true;
+    let storedTime = localStorage.getItem("time");
+
+    if (storedTime) {
+      trainingTime = storedTime;
+    } else {
+      trainingTime = "1";
+    }
   });
 
   function navigate(link) {
