@@ -51,6 +51,9 @@
           type="number"
           width="12.5rem"
           bind:value={trainingTime}
+          oninput={(e) => {
+            trainingTime = e.target.value.replace(/\D/g, "");
+          }}
         />
       </div>
     </div>
