@@ -28,6 +28,8 @@
   $: {
     if (Number(trainingTime) > 60) {
       trainingTime = "60";
+    } else if (Number(trainingTime) < 1) {
+      trainingTime = "1";
     }
   }
 </script>
@@ -46,9 +48,7 @@
       <div style:margin-left="0.5rem">
         <TextField
           label="Training time"
-          oninput={(e) => {
-            trainingTime = e.target.value.replace(/\D/g, "");
-          }}
+          type="number"
           width="12.5rem"
           bind:value={trainingTime}
         />
