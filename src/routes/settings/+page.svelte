@@ -28,7 +28,7 @@
   $: {
     if (Number(trainingTime) > 60) {
       trainingTime = "60";
-    } else if (Number(trainingTime) < 1) {
+    } else if (Number(trainingTime) < 0) {
       trainingTime = "1";
     }
   }
