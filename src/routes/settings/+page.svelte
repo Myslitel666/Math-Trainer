@@ -29,7 +29,7 @@
     if (Number(trainingTime) > 60) {
       trainingTime = "60";
     } else if (Number(trainingTime) < 0) {
-      trainingTime = "1";
+      trainingTime = "0";
     }
   }
 </script>
@@ -70,6 +70,7 @@
       <Button
         width="100%"
         onClick={() => {
+          if (trainingTime === "0") trainingTime = "1";
           localStorage.setItem("difficultyLevels", difficultyLevels);
           localStorage.setItem("time", trainingTime);
           navigate("/home");
