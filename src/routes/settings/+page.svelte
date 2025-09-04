@@ -10,14 +10,20 @@
   let isInitialized = false;
 
   onMount(() => {
-    difficultyLevels = "Medium";
     isInitialized = true;
     let storedTime = localStorage.getItem("time");
+    let storedLevel = localStorage.getItem("difficultyLevel");
 
     if (storedTime) {
       trainingTime = storedTime;
     } else {
       trainingTime = "1";
+    }
+
+    if (storedLevel) {
+      difficultyLevels = storedLevel;
+    } else {
+      difficultyLevels = "Medium";
     }
   });
 
@@ -74,7 +80,7 @@
         width="100%"
         onClick={() => {
           if (trainingTime === "0") trainingTime = "1";
-          localStorage.setItem("difficultyLevels", difficultyLevels);
+          localStorage.setItem("difficultyLevel", difficultyLevels);
           localStorage.setItem("time", trainingTime);
           navigate("/home");
         }}

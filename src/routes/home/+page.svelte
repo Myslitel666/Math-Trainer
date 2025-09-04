@@ -10,6 +10,7 @@
   let isInitialized = false;
   let time = 1;
   let timerInterval: number | null = null;
+  let difficultyLevel = "Medium";
 
   let isError = 0;
   let rightColor = "";
@@ -124,33 +125,55 @@
     //operation = "-";
 
     if ($gameStore.operation === "+") {
-      $gameStore.firstNumber = genComplexNumber(11, 99);
-      $gameStore.secondNumber = genComplexNumber(11, 99);
+      if (difficultyLevel === "Easy") {
+        $gameStore.firstNumber = genComplexNumber(1, 9);
+        $gameStore.secondNumber = genComplexNumber(1, 9);
+      } else {
+        $gameStore.firstNumber = genComplexNumber(11, 99);
+        $gameStore.secondNumber = genComplexNumber(11, 99);
+      }
 
       $gameStore.num = (
         $gameStore.firstNumber + $gameStore.secondNumber
       ).toString();
     } else if ($gameStore.operation === "-") {
-      $gameStore.firstNumber = genComplexNumber(11, 99);
-      $gameStore.secondNumber = genSubOperand($gameStore.firstNumber, 11, 99);
-
+      if (difficultyLevel === "Easy") {
+        $gameStore.firstNumber = genComplexNumber(1, 9);
+        $gameStore.secondNumber = genComplexNumber(1, 9);
+      } else {
+        $gameStore.firstNumber = genComplexNumber(11, 99);
+        $gameStore.secondNumber = genSubOperand($gameStore.firstNumber, 11, 99);
+      }
       $gameStore.num = (
         $gameStore.firstNumber - $gameStore.secondNumber
       ).toString();
     } else if ($gameStore.operation === "•") {
-      $gameStore.secondNumber = genComplexNumber(3, 9);
-
-      if ($gameStore.secondNumber === 3) {
-        $gameStore.firstNumber = genComplexNumber(34, 99);
+      if (difficultyLevel === "Easy") {
+        $gameStore.firstNumber = genComplexNumber(2, 9);
+        $gameStore.secondNumber = genComplexNumber(2, 9);
       } else {
-        $gameStore.firstNumber = genComplexNumber(11, 99);
+        $gameStore.secondNumber = genComplexNumber(3, 9);
+
+        if ($gameStore.secondNumber === 3) {
+          $gameStore.firstNumber = genComplexNumber(34, 99);
+        } else {
+          $gameStore.firstNumber = genComplexNumber(11, 99);
+        }
       }
       $gameStore.num = (
         $gameStore.firstNumber * $gameStore.secondNumber
       ).toString();
     } else {
-      let quotient = genComplexNumber(11, 99);
-      let divisor = genComplexNumber(3, 9);
+      let quotient;
+      let divisor;
+
+      if (difficultyLevel === "Easy") {
+        quotient = genComplexNumber(2, 9);
+        divisor = genComplexNumber(2, 9);
+      } else {
+        quotient = genComplexNumber(11, 99);
+        divisor = genComplexNumber(3, 9);
+      }
       let dividend = quotient * divisor;
 
       $gameStore.firstNumber = dividend;
@@ -168,10 +191,15 @@
 
   onMount(() => {
     const storedTime = localStorage.getItem("time");
+    const storedLevel = localStorage.getItem("difficultyLevel");
 
     if (storedTime) {
       $gameStore.timeLeft = Number(storedTime) * 60;
       time = Number(storedTime);
+    }
+
+    if (storedLevel) {
+      difficultyLevel = storedLevel;
     }
 
     initialTimer();
