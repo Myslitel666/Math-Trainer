@@ -112,11 +112,13 @@
   }
 
   function initialTimer() {
+    const startTime = Date.now();
+    const initialTime = $gameStore.timeLeft;
+
     timerInterval = setInterval(() => {
-      if ($gameStore.timeLeft > 0) {
-        $gameStore.timeLeft--;
-      }
-    }, 1000);
+      const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+      $gameStore.timeLeft = Math.max(0, initialTime - elapsedSeconds);
+    }, 100); // Проверяем чаще, но вычисляем точно
   }
 
   function genExample() {
