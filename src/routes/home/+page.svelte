@@ -264,6 +264,14 @@
       $gameStore.isOpenModal = $gameStore.timeLeft === 0;
     }
 
+    if ($gameStore.isOpenModal) {
+      setInterval(() => {
+        disabled = false;
+      }, 1500);
+    } else {
+      disabled = true;
+    }
+
     if (isMistaken && isFirstMistake) {
       if (timerInterval) {
         clearInterval(timerInterval);
@@ -271,6 +279,7 @@
       }
     }
   }
+
   function onNumbClick(event: MouseEvent, button: string | number) {
     if ($gameStore.textRender !== $gameStore.num) {
       if ($gameStore.inputStr.length < $gameStore.num.length) {
