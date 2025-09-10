@@ -14,6 +14,7 @@
   let isFirstMistake = false;
 
   let isError = 0;
+  let isMistaken = false;
   let rightColor = "";
   let errColor = "";
 
@@ -47,6 +48,7 @@
       $gameStore.rightCount++;
     } else {
       isError = 1;
+      isMistaken = true;
       $gameStore.errorCount++;
     }
     $gameStore.inputStr = "";
@@ -253,7 +255,11 @@
       }, 750);
     }
 
-    $gameStore.isOpenModal = $gameStore.timeLeft === 0;
+    if (isFirstMistake) {
+      $gameStore.isOpenModal = isMistaken;
+    } else {
+      $gameStore.isOpenModal = $gameStore.timeLeft === 0;
+    }
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if ($gameStore.textRender !== $gameStore.num) {
@@ -419,23 +425,27 @@
         {/each}
       </div>
     </div>
-    {#if $gameStore.timeLeft !== 0}
-      <div class="counts">
-        <span style:margin-top="-5px" style:color={rightColor}
-          >✔{$gameStore.rightCount}
-        </span>
-        <span style:color={$gameStore.timeLeft > 10 ? rightColor : errColor}>
-          {Math.floor($gameStore.timeLeft / 60)
-            .toString()
-            .padStart(2, "0")}:{($gameStore.timeLeft % 60)
-            .toString()
-            .padStart(2, "0")}
-        </span>
-        <span style:margin-top="-4.5px" style:color={errColor}>
-          ✘{$gameStore.errorCount}
-        </span>
-      </div>
-    {/if}
+    <div class="counts">
+      <span style:margin-top="-5px" style:color={rightColor}
+        >✔{$gameStore.rightCount}
+      </span>
+      <span
+        style:color={isFirstMistake
+          ? rightColor
+          : $gameStore.timeLeft > 10
+            ? rightColor
+            : errColor}
+      >
+        {Math.floor($gameStore.timeLeft / 60)
+          .toString()
+          .padStart(2, "0")}:{($gameStore.timeLeft % 60)
+          .toString()
+          .padStart(2, "0")}
+      </span>
+      <span style:margin-top="-4.5px" style:color={errColor}>
+        ✘{$gameStore.errorCount}
+      </span>
+    </div>
   </div>
 {:else}
   <div></div>
