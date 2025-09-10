@@ -12,9 +12,9 @@
 
   onMount(() => {
     isInitialized = true;
-    let storedTime = localStorage.getItem("time");
-    let storedLevel = localStorage.getItem("difficultyLevel");
-    let storedIsFirstMistake = localStorage.getItem("isFirstMistake");
+    const storedTime = localStorage.getItem("time");
+    const storedLevel = localStorage.getItem("difficultyLevel");
+    const storedIsFirstMistake = localStorage.getItem("isFirstMistake");
 
     if (storedTime) {
       trainingTime = storedTime;
@@ -55,20 +55,22 @@
     >
       Select Mode
     </p>
-    <div class="switch-container">
-      <p class="width">Time (min):</p>
-      <div style:margin-left="0.5rem">
-        <TextField
-          label="Training time"
-          type="number"
-          width="12.5rem"
-          bind:value={trainingTime}
-          oninput={(e) => {
-            trainingTime = e.target.value.replace(/\D/g, "");
-          }}
-        />
+    {#if !isFirstMistake}
+      <div class="switch-container">
+        <p class="width">Time (min):</p>
+        <div style:margin-left="0.5rem">
+          <TextField
+            label="Training time"
+            type="number"
+            width="12.5rem"
+            bind:value={trainingTime}
+            oninput={(e) => {
+              trainingTime = e.target.value.replace(/\D/g, "");
+            }}
+          />
+        </div>
       </div>
-    </div>
+    {/if}
     <div class="switch-container">
       <p class="width">Difficulty Levels:</p>
       <div style:margin-left="0.5rem">

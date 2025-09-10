@@ -11,6 +11,7 @@
   let time = 1;
   let timerInterval: number | null = null;
   let difficultyLevel = "Medium";
+  let isFirstMistake = false;
 
   let isError = 0;
   let rightColor = "";
@@ -194,6 +195,7 @@
   onMount(() => {
     const storedTime = localStorage.getItem("time");
     const storedLevel = localStorage.getItem("difficultyLevel");
+    const storedIsFirstMistake = localStorage.getItem("isFirstMistake");
 
     if (storedTime) {
       $gameStore.timeLeft = Number(storedTime) * 60;
@@ -202,6 +204,10 @@
 
     if (storedLevel) {
       difficultyLevel = storedLevel;
+    }
+
+    if (storedIsFirstMistake) {
+      isFirstMistake = storedIsFirstMistake === "true" ? true : false;
     }
 
     initialTimer();
