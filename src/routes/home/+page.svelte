@@ -13,6 +13,8 @@
   let difficultyLevel = "Medium";
   let isFirstMistake = false;
 
+  let disabled = true;
+
   let isError = 0;
   let isMistaken = false;
   let rightColor = "";
@@ -262,7 +264,7 @@
       $gameStore.isOpenModal = $gameStore.timeLeft === 0;
     }
 
-    if (isMistaken) {
+    if (isMistaken && isFirstMistake) {
       if (timerInterval) {
         clearInterval(timerInterval);
         timerInterval = null;
@@ -337,6 +339,7 @@
         </div>
       </div>
       <Button
+        {disabled}
         width="100%"
         onclick={() => {
           if (isFirstMistake) {
@@ -356,6 +359,7 @@
         }}>Restart</Button
       >
       <Button
+        {disabled}
         marginTop="10px"
         variant="Outlined"
         width="100%"
