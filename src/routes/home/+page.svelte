@@ -118,7 +118,8 @@
 
     timerInterval = setInterval(() => {
       const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
-      $gameStore.timeLeft = Math.max(0, initialTime - elapsedSeconds);
+      if (isFirstMistake) $gameStore.timeLeft = initialTime + elapsedSeconds;
+      else $gameStore.timeLeft = Math.max(0, initialTime - elapsedSeconds);
     }, 100); // Проверяем чаще, но вычисляем точно
   }
 
