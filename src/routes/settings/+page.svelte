@@ -1,5 +1,5 @@
 <script>
-  import { Button, AutoComplete, TextField } from "svelte-elegant";
+  import { Button, AutoComplete, TextField, Switch } from "svelte-elegant";
   import { goto } from "$app/navigation";
   import { onMount } from "svelte";
 
@@ -73,6 +73,12 @@
           bind:value={difficultyLevels}
           options={["Easy", "Medium", "Hard"]}
         />
+      </div>
+    </div>
+    <div class="switch-container">
+      <p>Before the first mistake:</p>
+      <div style:margin-left="0.5rem">
+        <Switch />
       </div>
     </div>
     <div class="mgn-top" style:width="100%">
