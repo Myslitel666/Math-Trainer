@@ -311,7 +311,10 @@
         </div>
         <div class="score time-score">
           <span>Time (T):</span>
-          <span style:font-weight="600" style:margin-left="5px">{time} min</span
+          <span style:font-weight="600" style:margin-left="5px"
+            >{isFirstMistake ? Math.floor($gameStore.timeLeft / 60) : time} min {isFirstMistake
+              ? ($gameStore.timeLeft % 60).toString() + " s"
+              : ""}</span
           >
         </div>
         <div class="avg-formula">
