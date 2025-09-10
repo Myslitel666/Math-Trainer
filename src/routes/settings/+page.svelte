@@ -6,6 +6,7 @@
   // Загружаем значение из localStorage или используем true по умолчанию
   let difficultyLevels = "";
   let trainingTime = "";
+  let isFirstMistake = false;
 
   let isInitialized = false;
 
@@ -13,6 +14,7 @@
     isInitialized = true;
     let storedTime = localStorage.getItem("time");
     let storedLevel = localStorage.getItem("difficultyLevel");
+    let storedIsFirstMistake = localStorage.getItem("isFirstMistake");
 
     if (storedTime) {
       trainingTime = storedTime;
@@ -24,6 +26,10 @@
       difficultyLevels = storedLevel;
     } else {
       difficultyLevels = "Medium";
+    }
+
+    if (storedIsFirstMistake) {
+      isFirstMistake = storedIsFirstMistake === "true" ? true : false;
     }
   });
 
@@ -78,7 +84,7 @@
     <div class="switch-container">
       <p>Before the first mistake:</p>
       <div style:margin-left="0.5rem">
-        <Switch />
+        <Switch bind:isChecked={isFirstMistake} />
       </div>
     </div>
     <div class="mgn-top" style:width="100%">
@@ -88,6 +94,7 @@
           if (trainingTime === "0") trainingTime = "1";
           localStorage.setItem("difficultyLevel", difficultyLevels);
           localStorage.setItem("time", trainingTime);
+          localStorage.setItem("isFirstMistake", isFirstMistake.toString());
           navigate("/home");
         }}
       >
