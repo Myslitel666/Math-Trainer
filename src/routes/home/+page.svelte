@@ -257,6 +257,7 @@
 
     if (isFirstMistake) {
       $gameStore.isOpenModal = isMistaken;
+      time = $gameStore.timeLeft / 60;
     } else {
       $gameStore.isOpenModal = $gameStore.timeLeft === 0;
     }
