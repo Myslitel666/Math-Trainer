@@ -265,9 +265,9 @@
     }
 
     if ($gameStore.isOpenModal) {
-      setInterval(() => {
+      setTimeout(() => {
         disabled = false;
-      }, 1500);
+      }, 700);
     } else {
       disabled = true;
     }
