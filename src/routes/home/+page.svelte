@@ -198,17 +198,21 @@
     const storedLevel = localStorage.getItem("difficultyLevel");
     const storedIsFirstMistake = localStorage.getItem("isFirstMistake");
 
+    if (storedIsFirstMistake) {
+      isFirstMistake = storedIsFirstMistake === "true" ? true : false;
+    }
+
     if (storedTime) {
-      $gameStore.timeLeft = Number(storedTime) * 60;
-      time = Number(storedTime);
+      if (isFirstMistake) {
+        $gameStore.timeLeft = 0;
+      } else {
+        $gameStore.timeLeft = Number(storedTime) * 60;
+        time = Number(storedTime);
+      }
     }
 
     if (storedLevel) {
       difficultyLevel = storedLevel;
-    }
-
-    if (storedIsFirstMistake) {
-      isFirstMistake = storedIsFirstMistake === "true" ? true : false;
     }
 
     initialTimer();
