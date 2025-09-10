@@ -260,6 +260,13 @@
     } else {
       $gameStore.isOpenModal = $gameStore.timeLeft === 0;
     }
+
+    if (isMistaken) {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
   }
   function onNumbClick(event: MouseEvent, button: string | number) {
     if ($gameStore.textRender !== $gameStore.num) {
@@ -328,7 +335,12 @@
       <Button
         width="100%"
         onclick={() => {
-          restart(time);
+          if (isFirstMistake) {
+            restart(0);
+            isMistaken = false;
+          } else {
+            restart(time);
+          }
           genExample();
 
           if (timerInterval) {

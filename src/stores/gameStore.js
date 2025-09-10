@@ -12,7 +12,7 @@ const initialState = {
     num: "",
     textRender: "",
     operation: "",
-    operationsHist: ""
+    operationsHist: "",
 };
 
 // Создаем store
