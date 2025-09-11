@@ -13,6 +13,7 @@
   let difficultyLevel = "Medium";
   let isFirstMistake = false;
   let elapsedSeconds = 0;
+  let history = [];
 
   let disabled = true;
 
@@ -46,15 +47,41 @@
     }
   });
 
+  function createItemHistory() {
+    let historyItem = {
+      firstOperand: $gameStore.firstNumber,
+      secondOperand: $gameStore.secondNumber,
+      operation: $gameStore.operation,
+      inputStr: $gameStore.inputStr,
+      isMistake: false,
+      isNegative: false,
+    };
+
+    if (
+      $gameStore.operation === "-" &&
+      $gameStore.firstNumber < $gameStore.secondNumber
+    ) {
+      historyItem.isNegative = true;
+    }
+
+    return historyItem;
+  }
+
   function checkResult() {
+    let historyItem = createItemHistory();
+
     if ($gameStore.inputStr === $gameStore.num) {
       isError = 0;
       $gameStore.rightCount++;
     } else {
       isError = 1;
-      isMistaken = true;
       $gameStore.errorCount++;
+      isMistaken = true;
+      historyItem.isMistake = true;
     }
+
+    history.push(historyItem);
+
     $gameStore.inputStr = "";
 
     genExample();
