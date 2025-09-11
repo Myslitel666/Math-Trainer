@@ -483,6 +483,8 @@
         width="175px"
         marginTop="10px"
         fontSize="25px"
+        bgColor={errColor}
+        color="white"
       >
         STOP
       </Button>
