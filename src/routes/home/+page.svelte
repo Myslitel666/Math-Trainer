@@ -343,7 +343,28 @@
       <div style:padding="4px">
         {#if isViewHistory}
           <p class="modal-header">History</p>
-          <ScrollbarContainer height="200px"></ScrollbarContainer>
+          <ScrollbarContainer height="auto" maxHeight="325px">
+            {#each history as item, index}
+              <div class="history">
+                <div>
+                  <span style:color={item.isMistake ? errColor : rightColor}
+                    >{index + 1}.</span
+                  >
+                  <span>{item.firstOperand} </span>
+                  <span style:color={item.isMistake ? errColor : rightColor}
+                    >{item.operation}
+                  </span>
+                  <span>{item.secondOperand} </span>
+                  <span style:color={item.isMistake ? errColor : rightColor}
+                    >=
+                  </span>
+                  <span style:color={item.isMistake ? errColor : rightColor}
+                    >{item.inputStr}</span
+                  >
+                </div>
+              </div>
+            {/each}
+          </ScrollbarContainer>
           <Button
             variant="Text"
             onClick={() => {
@@ -411,6 +432,7 @@
             {disabled}
             width="100%"
             onclick={() => {
+              history = [];
               if (isFirstMistake) {
                 restart(0);
                 isMistaken = false;
@@ -553,6 +575,14 @@
 {/if}
 
 <style>
+  .history {
+    display: flex;
+    justify-content: center;
+    font-size: 24px;
+    gap: 5px;
+    margin-bottom: 5px;
+  }
+
   .score-num {
     margin-top: -4px;
     font-size: 32px;
