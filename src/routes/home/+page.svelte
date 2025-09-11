@@ -342,36 +342,54 @@
     >
       <div style:padding="4px">
         {#if isViewHistory}
-          <p class="modal-header" style:margin-bottom="3px">History</p>
-          <ScrollbarContainer height="auto" maxHeight="315px">
-            <div class="history">
-              {#each history as item, index}
-                <div style:display="flex" style:justify-content="center">
-                  <div>
-                    <span
-                      style:margin-right="auto"
-                      style:color={item.isMistake ? errColor : rightColor}
-                      >{index + 1}.</span
-                    >
-                    <span>{item.firstOperand} </span>
-                    <span style:color={item.isMistake ? errColor : rightColor}
-                      >{item.operation}
-                    </span>
-                    <span>{item.secondOperand} </span>
-                    <span style:color={item.isMistake ? errColor : rightColor}>
-                      =
-                    </span>
-                    <span style:color={item.isMistake ? errColor : rightColor}>
-                      {#if item.isNegative}-{/if}
-                    </span>
-                    <span style:color={item.isMistake ? errColor : rightColor}>
-                      {item.inputStr}
-                    </span>
-                  </div>
+          <p class="modal-header" style:margin-bottom="10px">History</p>
+          {#if history.length !== 0}
+            <ScrollbarContainer height="auto" maxHeight="315px">
+              <!-- Контейнер центрируется -->
+              <div class="history-container">
+                <!-- Внутренний блок прижимается к левому краю -->
+                <div class="history-content">
+                  {#each history as item, index}
+                    <div class="history-item">
+                      <span class="history-index">{index + 1}.</span>
+                      <span>{item.firstOperand} </span>
+                      <span
+                        class="history-operation"
+                        style:color={item.isMistake ? errColor : rightColor}
+                      >
+                        {item.operation}
+                      </span>
+                      <span>{item.secondOperand} </span>
+                      <span
+                        class="history-equals"
+                        style:color={item.isMistake ? errColor : rightColor}
+                        >=</span
+                      >
+                      {#if item.isNegative}
+                        <span
+                          class="history-negative"
+                          style:color={item.isMistake ? errColor : rightColor}
+                          >-</span
+                        >
+                      {/if}
+                      <span
+                        class="history-result"
+                        style:color={item.isMistake ? errColor : rightColor}
+                      >
+                        {item.inputStr}
+                      </span>
+                    </div>
+                  {/each}
                 </div>
-              {/each}
-            </div>
-          </ScrollbarContainer>
+              </div>
+            </ScrollbarContainer>
+          {:else}<div
+              style:display="flex"
+              style:justify-content="center"
+              style:color={$themeStore.palette.text.labelContrast}
+            >
+              The history is empty
+            </div>{/if}
           <Button
             variant="Text"
             marginTop="5px"
@@ -583,13 +601,34 @@
 {/if}
 
 <style>
-  .history {
+  .history-container {
     display: flex;
-    justify-content: center;
-    flex-direction: column;
+    justify-content: center; /* Центрируем контейнер */
+    width: 100%;
     font-size: 24px;
-    gap: 5px;
+  }
+
+  .history-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; /* Элементы прижимаем к левому краю */
+    width: auto;
+    max-width: 100%;
+  }
+
+  .history-item {
+    display: flex;
+    align-items: center;
+    gap: 2px;
     margin-bottom: 5px;
+    width: 100%;
+    justify-content: flex-start; /* Важно: прижимаем к левому краю */
+  }
+
+  .history-index {
+    margin-right: 8px;
+    min-width: 20px;
+    text-align: right;
   }
 
   .score-num {
