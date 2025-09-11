@@ -267,7 +267,11 @@
       $gameStore.isOpenModal = isMistaken;
       time = $gameStore.timeLeft / 60;
     } else {
-      $gameStore.isOpenModal = $gameStore.timeLeft === 0 || isStoped;
+      $gameStore.isOpenModal = $gameStore.timeLeft <= 0 || isStoped;
+
+      if ($gameStore.timeLeft <= 0) {
+        deleteTimer();
+      }
     }
 
     if ($gameStore.isOpenModal) {
@@ -275,16 +279,10 @@
         disabled = false;
       }, 700);
     } else {
-      setTimeout(() => {
-        disabled = true;
-      }, 700);
+      disabled = true;
     }
 
-    if (isMistaken && isFirstMistake) {
-      deleteTimer();
-    }
-
-    if (isStoped) {
+    if ((isMistaken && isFirstMistake) || isStoped) {
       deleteTimer();
     }
   }
