@@ -6,6 +6,7 @@
   import { goto } from "$app/navigation";
   import { gameStore, restart } from "../../stores/gameStore";
 
+  let isViewHistory = false;
   let exampleColor = "";
   let isInitialized = false;
   let time = 1;
@@ -340,76 +341,98 @@
       maxWidth="8rem"
     >
       <div style:padding="4px">
-        <p class="modal-header">Score</p>
-        <div class="modal">
-          <div class="score">
-            <p>Correct (C)</p>
-            <p style:color={rightColor} class="score-num">
-              ✔<span style:font-weight="600">{$gameStore.rightCount}</span>
-            </p>
-          </div>
-          <div class="score">
-            <p>Mistakes (M)</p>
-            <p style:color={errColor} class="score-num">
-              ✘<span style:font-weight="600">{$gameStore.errorCount}</span>
-            </p>
-          </div>
-        </div>
-        <div class="score time-score">
-          <span>Time (T):</span>
-          <span style:font-weight="600" style:margin-left="5px">
-            {#if Math.floor(elapsedSeconds / 60) !== 0}
-              {Math.floor(elapsedSeconds / 60)} min
-            {/if}
-            {isFirstMistake || isStoped
-              ? (elapsedSeconds % 60).toString() + " s"
-              : ""}</span
+        {#if isViewHistory}
+          <p class="modal-header">History</p>
+          <Button
+            variant="Text"
+            onClick={() => {
+              isViewHistory = !isViewHistory;
+            }}
           >
-        </div>
-        <div class="avg-formula">
-          <p>Avg. correct/min =</p>
-          <div>
-            <p class="numerator">C²</p>
-            <p>(C + M) × T</p>
+            Back to Score
+          </Button>
+        {:else}
+          <p class="modal-header">Score</p>
+          <div class="modal">
+            <div class="score">
+              <p>Correct (C)</p>
+              <p style:color={rightColor} class="score-num">
+                ✔<span style:font-weight="600">{$gameStore.rightCount}</span>
+              </p>
+            </div>
+            <div class="score">
+              <p>Mistakes (M)</p>
+              <p style:color={errColor} class="score-num">
+                ✘<span style:font-weight="600">{$gameStore.errorCount}</span>
+              </p>
+            </div>
           </div>
-          <p>=</p>
-        </div>
-        <div class="avg-correct">
-          {($gameStore.rightCount + $gameStore.errorCount) * Number(time) !== 0
-            ? (
-                ($gameStore.rightCount * $gameStore.rightCount * 60) /
-                ($gameStore.rightCount + $gameStore.errorCount) /
-                elapsedSeconds
-              ).toFixed(2)
-            : 0}
-        </div>
-      </div>
-      <Button
-        {disabled}
-        width="100%"
-        onclick={() => {
-          if (isFirstMistake) {
-            restart(0);
-            isMistaken = false;
-          } else {
-            isStoped = false;
-            restart(time);
-          }
-          genExample();
+          <div class="score time-score">
+            <span>Time (T):</span>
+            <span style:font-weight="600" style:margin-left="5px">
+              {#if Math.floor(elapsedSeconds / 60) !== 0}
+                {Math.floor(elapsedSeconds / 60)} min
+              {/if}
+              {isFirstMistake || isStoped
+                ? (elapsedSeconds % 60).toString() + " s"
+                : ""}</span
+            >
+          </div>
+          <div class="avg-formula">
+            <p>Avg. correct/min =</p>
+            <div>
+              <p class="numerator">C²</p>
+              <p>(C + M) × T</p>
+            </div>
+            <p>=</p>
+          </div>
+          <div class="avg-correct">
+            {($gameStore.rightCount + $gameStore.errorCount) * Number(time) !==
+            0
+              ? (
+                  ($gameStore.rightCount * $gameStore.rightCount * 60) /
+                  ($gameStore.rightCount + $gameStore.errorCount) /
+                  elapsedSeconds
+                ).toFixed(2)
+              : 0}
+          </div>
+          <Button
+            variant="Text"
+            marginBottom="10px"
+            onClick={() => {
+              isViewHistory = !isViewHistory;
+            }}
+          >
+            Check History
+          </Button>
+          <Button
+            {disabled}
+            width="100%"
+            onclick={() => {
+              if (isFirstMistake) {
+                restart(0);
+                isMistaken = false;
+              } else {
+                isStoped = false;
+                restart(time);
+              }
+              genExample();
 
-          deleteTimer();
-          initialTimer();
-        }}>Restart</Button
-      >
-      <Button
-        {disabled}
-        marginTop="10px"
-        variant="Outlined"
-        width="100%"
-        onclick={() => goto("/settings")}
-      >
-        Back to Settings
-      </Button>
+              deleteTimer();
+              initialTimer();
+            }}>Restart</Button
+          >
+          <Button
+            {disabled}
+            marginTop="10px"
+            variant="Outlined"
+            width="100%"
+            onclick={() => goto("/settings")}
+          >
+            Back to Settings
+          </Button>
+        {/if}
+      </div>
     </Modal>
     <div class="counts-container">
       <p class="render">
