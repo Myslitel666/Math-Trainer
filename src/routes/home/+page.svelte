@@ -12,6 +12,7 @@
   let timerInterval: number | null = null;
   let difficultyLevel = "Medium";
   let isFirstMistake = false;
+  let elapsedSeconds = 0;
 
   let disabled = true;
 
@@ -19,6 +20,7 @@
   let isMistaken = false;
   let rightColor = "";
   let errColor = "";
+  let isStoped = false;
 
   let operations = "+-•÷";
 
@@ -121,7 +123,7 @@
     const initialTime = $gameStore.timeLeft;
 
     timerInterval = setInterval(() => {
-      const elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
+      elapsedSeconds = Math.floor((Date.now() - startTime) / 1000);
       if (isFirstMistake) $gameStore.timeLeft = initialTime + elapsedSeconds;
       else $gameStore.timeLeft = Math.max(0, initialTime - elapsedSeconds);
     }, 100); // Проверяем чаще, но вычисляем точно
@@ -226,12 +228,16 @@
     isInitialized = true;
   });
 
-  // ОЧИЩАЕМ ТАЙМЕР ПРИ УНИЧТОЖЕНИИ КОМПОНЕНТА
-  onDestroy(() => {
+  function deleteTimer() {
     if (timerInterval) {
       clearInterval(timerInterval);
       timerInterval = null;
     }
+  }
+
+  // ОЧИЩАЕМ ТАЙМЕР ПРИ УНИЧТОЖЕНИИ КОМПОНЕНТА
+  onDestroy(() => {
+    deleteTimer();
   });
 
   $: {
@@ -261,7 +267,7 @@
       $gameStore.isOpenModal = isMistaken;
       time = $gameStore.timeLeft / 60;
     } else {
-      $gameStore.isOpenModal = $gameStore.timeLeft === 0;
+      $gameStore.isOpenModal = $gameStore.timeLeft === 0 || isStoped;
     }
 
     if ($gameStore.isOpenModal) {
@@ -275,10 +281,11 @@
     }
 
     if (isMistaken && isFirstMistake) {
-      if (timerInterval) {
-        clearInterval(timerInterval);
-        timerInterval = null;
-      }
+      deleteTimer();
+    }
+
+    if (isStoped) {
+      deleteTimer();
     }
   }
 
@@ -325,9 +332,12 @@
         </div>
         <div class="score time-score">
           <span>Time (T):</span>
-          <span style:font-weight="600" style:margin-left="5px"
-            >{isFirstMistake ? Math.floor($gameStore.timeLeft / 60) : time} min {isFirstMistake
-              ? ($gameStore.timeLeft % 60).toString() + " s"
+          <span style:font-weight="600" style:margin-left="5px">
+            {#if Math.floor(elapsedSeconds / 60) !== 0}
+              {Math.floor(elapsedSeconds / 60)} min
+            {/if}
+            {isFirstMistake || isStoped
+              ? (elapsedSeconds % 60).toString() + " s"
               : ""}</span
           >
         </div>
@@ -357,15 +367,12 @@
             restart(0);
             isMistaken = false;
           } else {
+            isStoped = false;
             restart(time);
           }
           genExample();
 
-          if (timerInterval) {
-            clearInterval(timerInterval);
-            timerInterval = null;
-          }
-
+          deleteTimer();
           initialTimer();
         }}>Restart</Button
       >
@@ -485,6 +492,9 @@
         fontSize="25px"
         bgColor="red"
         color="white"
+        onClick={() => {
+          isStoped = true;
+        }}
       >
         STOP
       </Button>
