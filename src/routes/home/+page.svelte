@@ -394,7 +394,12 @@
             variant="Text"
             marginTop="5px"
             onClick={() => {
+              disabled = true;
               isViewHistory = !isViewHistory;
+
+              setTimeout(() => {
+                disabled = false;
+              }, 100);
             }}
           >
             Back to Score
