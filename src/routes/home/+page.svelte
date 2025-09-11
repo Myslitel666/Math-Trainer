@@ -2,7 +2,7 @@
   import { themeStore, themeMode } from "svelte-elegant/stores";
   import { onMount, onDestroy } from "svelte";
   import ButtonBox from "svelte-elegant/ButtonBox";
-  import { Modal, Button } from "svelte-elegant";
+  import { Modal, Button, ScrollbarContainer } from "svelte-elegant";
   import { goto } from "$app/navigation";
   import { gameStore, restart } from "../../stores/gameStore";
 
@@ -343,6 +343,7 @@
       <div style:padding="4px">
         {#if isViewHistory}
           <p class="modal-header">History</p>
+          <ScrollbarContainer height="200px"></ScrollbarContainer>
           <Button
             variant="Text"
             onClick={() => {
@@ -397,6 +398,7 @@
               : 0}
           </div>
           <Button
+            {disabled}
             variant="Text"
             marginBottom="10px"
             onClick={() => {
