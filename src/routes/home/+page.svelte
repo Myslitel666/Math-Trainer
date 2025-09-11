@@ -483,7 +483,7 @@
         width="175px"
         marginTop="10px"
         fontSize="25px"
-        bgColor={errColor}
+        bgColor="red"
         color="white"
       >
         STOP
