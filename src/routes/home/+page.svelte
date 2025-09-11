@@ -352,9 +352,9 @@
         <div class="avg-correct">
           {($gameStore.rightCount + $gameStore.errorCount) * Number(time) !== 0
             ? (
-                ($gameStore.rightCount * $gameStore.rightCount) /
+                ($gameStore.rightCount * $gameStore.rightCount * 60) /
                 ($gameStore.rightCount + $gameStore.errorCount) /
-                Number(time)
+                elapsedSeconds
               ).toFixed(2)
             : 0}
         </div>
