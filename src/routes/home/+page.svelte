@@ -269,7 +269,9 @@
         disabled = false;
       }, 700);
     } else {
-      disabled = true;
+      setTimeout(() => {
+        disabled = true;
+      }, 700);
     }
 
     if (isMistaken && isFirstMistake) {
@@ -475,9 +477,17 @@
         ✘{$gameStore.errorCount}
       </span>
     </div>
+    {#if !isFirstMistake}
+      <Button
+        variant="Contained"
+        width="175px"
+        marginTop="10px"
+        fontSize="25px"
+      >
+        STOP
+      </Button>
+    {/if}
   </div>
-{:else}
-  <div></div>
 {/if}
 
 <style>
