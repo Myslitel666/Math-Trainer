@@ -342,31 +342,39 @@
     >
       <div style:padding="4px">
         {#if isViewHistory}
-          <p class="modal-header">History</p>
-          <ScrollbarContainer height="auto" maxHeight="325px">
-            {#each history as item, index}
-              <div class="history">
-                <div>
-                  <span style:color={item.isMistake ? errColor : rightColor}
-                    >{index + 1}.</span
-                  >
-                  <span>{item.firstOperand} </span>
-                  <span style:color={item.isMistake ? errColor : rightColor}
-                    >{item.operation}
-                  </span>
-                  <span>{item.secondOperand} </span>
-                  <span style:color={item.isMistake ? errColor : rightColor}
-                    >=
-                  </span>
-                  <span style:color={item.isMistake ? errColor : rightColor}
-                    >{item.inputStr}</span
-                  >
+          <p class="modal-header" style:margin-bottom="3px">History</p>
+          <ScrollbarContainer height="auto" maxHeight="315px">
+            <div class="history">
+              {#each history as item, index}
+                <div style:display="flex" style:justify-content="center">
+                  <div>
+                    <span
+                      style:margin-right="auto"
+                      style:color={item.isMistake ? errColor : rightColor}
+                      >{index + 1}.</span
+                    >
+                    <span>{item.firstOperand} </span>
+                    <span style:color={item.isMistake ? errColor : rightColor}
+                      >{item.operation}
+                    </span>
+                    <span>{item.secondOperand} </span>
+                    <span style:color={item.isMistake ? errColor : rightColor}>
+                      =
+                    </span>
+                    <span style:color={item.isMistake ? errColor : rightColor}>
+                      {#if item.isNegative}-{/if}
+                    </span>
+                    <span style:color={item.isMistake ? errColor : rightColor}>
+                      {item.inputStr}
+                    </span>
+                  </div>
                 </div>
-              </div>
-            {/each}
+              {/each}
+            </div>
           </ScrollbarContainer>
           <Button
             variant="Text"
+            marginTop="5px"
             onClick={() => {
               isViewHistory = !isViewHistory;
             }}
@@ -578,6 +586,7 @@
   .history {
     display: flex;
     justify-content: center;
+    flex-direction: column;
     font-size: 24px;
     gap: 5px;
     margin-bottom: 5px;
