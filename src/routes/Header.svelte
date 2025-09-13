@@ -2,7 +2,8 @@
   import { goto } from "$app/navigation";
   import Header from "svelte-elegant/Header";
   import ColorThemeSwitch from "svelte-elegant/ColorThemeSwitch";
-  import { DatabaseCheck } from "svelte-elegant/icons-elegant";
+  import { DiagramIconPro, Calculator } from "svelte-elegant/icons-elegant";
+  import { IconHover } from "svelte-elegant";
 
   import { themeMode, themeStore } from "svelte-elegant/stores";
 
@@ -24,7 +25,10 @@
 
 <Header>
   <button style:gap="0.5rem" onclick={() => goto("/settings")}>
-    <p style:font-size="26px">
+    <span style:margin-left="-7px" style:margin-top="4px">
+      <Calculator size="35px" />
+    </span>
+    <p style:font-size="26px" style:margin-left="-5px" style:margin-top="2px">
       <span
         style:color={svelteColor}
         style:filter={logotypeFilter}
@@ -38,8 +42,8 @@
     </p>
   </button>
   <div class="icons">
-    <button onclick={() => goto("/data")}>
-      <DatabaseCheck size="37px" />
+    <button style:margin-top="4px" onclick={() => goto("/data")}>
+      <DiagramIconPro size="49px" />
     </button>
     <ColorThemeSwitch />
   </div>
@@ -53,9 +57,9 @@
   .icons {
     display: flex;
     align-items: center;
-    gap: 5px;
+    gap: 6px;
     margin-left: auto;
-    margin-right: 1px;
+    margin-right: 6px;
   }
 
   @media (max-width: 768px) {
