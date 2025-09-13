@@ -1,7 +1,8 @@
 <script>
-  import ColorThemeSwitch from "svelte-elegant/ColorThemeSwitch";
   import { goto } from "$app/navigation";
   import Header from "svelte-elegant/Header";
+  import ColorThemeSwitch from "svelte-elegant/ColorThemeSwitch";
+  import { DatabaseCheck } from "svelte-elegant/icons-elegant";
 
   import { themeMode, themeStore } from "svelte-elegant/stores";
 
@@ -36,7 +37,10 @@
       </span>
     </p>
   </button>
-  <div style:margin-left="auto" style:margin-right="1px">
+  <div class="icons">
+    <button onclick={() => goto("/data")}>
+      <DatabaseCheck size="37px" />
+    </button>
     <ColorThemeSwitch />
   </div>
 </Header>
@@ -45,6 +49,15 @@
   button {
     margin-left: 6px;
   }
+
+  .icons {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-left: auto;
+    margin-right: 1px;
+  }
+
   @media (max-width: 768px) {
     button {
       margin-left: 3px;
